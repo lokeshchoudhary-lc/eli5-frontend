@@ -83,7 +83,8 @@
     <!-- Google SignIn -->
 
     <!-- Google SignIn -->
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-2">
+
+    <div class="d-grid gap-2 d-sm-flex justify-content-center mb-2">
       <div
         id="g_id_onload"
         data-client_id="267296457508-3aijf171n0nge0qu32fti4ttn1o5cv52.apps.googleusercontent.com"
@@ -103,6 +104,7 @@
         data-logo_alignment="left"
       />
     </div>
+
     <!-- Google SignIn -->
 
     <div class="container mt-5 mb-5">
