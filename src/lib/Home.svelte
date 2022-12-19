@@ -108,7 +108,7 @@
     <!-- Google SignIn -->
 
     <div class="container mt-5 mb-5">
-      <a href="/VIDEO-LINK-LOGIC-HERE"
+      <a href={null} data-bs-toggle="modal" data-bs-target="#video"
         ><i
           class="bi bi-play-circle"
           style="color: #3366FF; font-size: xx-large; padding-right: 10px;"
@@ -129,5 +129,34 @@
       loading="lazy"
       alt=""
     />
+  </div>
+</div>
+
+
+<!-- Video Modal -->
+<div
+  class="modal fade"
+  id="video"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">How it works</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        />
+      </div>
+      <div class="modal-body">
+        <div class="embed-responsive embed-responsive">
+          <iframe src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

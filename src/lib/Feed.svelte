@@ -215,6 +215,9 @@
   <a href={null} class="btn" data-bs-toggle="modal" data-bs-target="#profile"
     ><i class="bi bi-sunglasses fs-4 text-secondary" /></a
   >
+  <a href={null} class="btn" data-bs-toggle="modal" data-bs-target="#video"
+    ><i class="bi bi-youtube fs-4 text-secondary" /></a
+  >
   <a
     href={null}
     class="btn"
@@ -352,21 +355,21 @@
               class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
               data-bs-toggle="modal"
               data-bs-target={boolAnswered ? '' : '#writeelif'}
-              ><i class="bi bi-pen" /> Eli5</button
+              ><i class="bi bi-pen" /> </button
             >
           </div>
         </div>
       </div>
       <!-- user answer for the above question -->
       {#if userAnswer.answer !== undefined}
-        <div class="card border-light mt-4 shadow-sm rounded">
+        <div class="card border-success mt-4 shadow-sm rounded">
           <div class="card-header bg-white border-light">
             <img
               src={profileUrl + 'pic' + profilePictureCode + '.png'}
               alt=""
               height="30"
             />
-            <b>{userAnswer.answeredBy}</b> &emsp;
+            <b>{userAnswer.answeredBy}</b> &emsp; <span class="badge rounded-pill bg-success">Your Answer</span>
           </div>
           <div class="card-body text-secondary">
             <p class="card-text">
@@ -460,10 +463,12 @@
           </ul>
 
           <a
-            href="https://getapt.notion.site/Rules-of-Explaining-aac712b1c3d548598df9fb6854fdeb1a"
+          data-bs-toggle="modal"
+          data-bs-target="#video"
+          href={null}
             class="btn btn-outline-secondary">Watch how it works</a
           >
-          &ensp; &ensp; <i class="bi bi-info-circle" /> Rules
+           <i class="bi bi-info-circle" /> <a class="link-dark" href="google.com">Rules</a>
         </div>
       </div>
 
@@ -503,7 +508,7 @@
                     href={null}
                     class="small"
                     data-bs-toggle="modal"
-                    data-bs-target="#leaderboard">View More</a
+                    data-bs-target="#leaderboard">More</a
                   ></th
                 >
               </tr>
@@ -516,6 +521,34 @@
 </div>
 
 <!-- Button trigger modal -->
+
+<!-- Video Modal -->
+<div
+  class="modal fade"
+  id="video"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">How it works</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        />
+      </div>
+      <div class="modal-body">
+        <div class="embed-responsive embed-responsive">
+          <iframe src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Profile Modal -->
 <div
