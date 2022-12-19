@@ -111,6 +111,7 @@
   async function submitAnswer(event) {
     if (profanity.exists(textAreaAnswer)) {
       alert('Usage of Bad Words Found');
+      return;
     }
     let id = event.currentTarget.id;
 
