@@ -327,7 +327,8 @@
       >
         <div class="row align-items-center">
           <div class="col">
-            <p class="h5">{selectedQuestion} ?</p>
+            <p class="h5">{selectedQuestion} ?</p> 
+            <span class="badge text-bg-primary">Explain like I'm five</span>
           </div>
           <div class="col text-end">
             <button
@@ -348,6 +349,7 @@
         <div class="row align-items-center">
           <div class="col-10">
             <b>{selectedQuestion} ?</b>
+            <span class="badge text-bg-primary">Explain like I'm five</span>
           </div>
           <div class="col-2 text-end">
             <button

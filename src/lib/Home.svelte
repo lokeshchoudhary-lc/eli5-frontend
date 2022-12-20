@@ -109,7 +109,7 @@
 
     <div class="container mt-5 mb-5">
       <a href={null} data-bs-toggle="modal" data-bs-target="#video"
-        ><i
+      style="color: #3366FF;"><i
           class="bi bi-play-circle"
           style="color: #3366FF; font-size: xx-large; padding-right: 10px;"
         /> See how it works</a
