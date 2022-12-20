@@ -6,7 +6,7 @@
   import Feed from './lib/Feed.svelte';
   import Home from './lib/Home.svelte';
 
-  axios.defaults.baseURL = 'https://backend.eli5.club/api/v1';
+  axios.defaults.baseURL = 'https://localhost:8080/api/v1';
   axios.defaults.withCredentials = true;
 
   const routes = {

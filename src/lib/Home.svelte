@@ -121,13 +121,13 @@
       src="/assets/images/testm.png"
       class="img-fluid rounded-3 d-lg-none"
       loading="lazy"
-      alt=""
+      alt="Eli5 testimonials - people love eli5"
     />
     <img
       src="/assets/images/testimonial.png"
       class="img-fluid rounded-3 d-none d-lg-block"
       loading="lazy"
-      alt=""
+      alt="Eli5 testimonials - people love eli5"
     />
   </div>
 </div>
