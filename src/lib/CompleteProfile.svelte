@@ -85,8 +85,6 @@
 
 <svelte:head>
   <title>Complete Profile</title>
-  <meta name="robots" content="noindex nofollow" />
-  <html lang="en" />
 </svelte:head>
 
 <NavBar />

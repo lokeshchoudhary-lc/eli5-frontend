@@ -79,6 +79,7 @@
       const response = await axios.get(
         `/answers/${selectedQuestionId}?sort=${sortType}`
       );
+      console.log(response);
       if (response.status == 204) {
         loadMore = false;
         return;
@@ -100,6 +101,7 @@
       const response = await axios.get(
         `/answers/${selectedQuestionId}?sort=${sortType}&page=${page}`
       );
+      console.log(response);
 
       if (response.status == 204) {
         loadMore = false;
@@ -117,21 +119,21 @@
     onMount(async () => {
       console.log(sortType, selectedQuestionId);
       await getAnswers();
-      startLoadMore = true;
+      // startLoadMore = true;
     });
   }
 
-  async function likeAnswer(answerId) {
+  async function likeAnswer(answerId, answeredBy) {
     try {
-      const response = await axios.put(`/like/${answerId}`);
+      const response = await axios.put(`/like/${answerId}/${answeredBy}`);
       console.log(response);
     } catch (error) {
       console.log(error);
     }
   }
-  async function cancellikeAnswer(answerId) {
+  async function cancellikeAnswer(answerId, answeredBy) {
     try {
-      const response = await axios.put(`/cancelLike/${answerId}`);
+      const response = await axios.put(`/cancelLike/${answerId}/${answeredBy}`);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -143,49 +145,54 @@
     let answerId = event.currentTarget.id;
 
     let index = answers.findIndex((answer) => answer.id == answerId);
+
     if (answers[index].liked == true) {
       answers[index].liked = false;
       answers[index].likeNumber -= 1;
       answers[index].likeClass = 'bi bi-heart';
-      cancellikeAnswer(answerId);
+      cancellikeAnswer(answerId, answers[index].answeredBy);
     } else {
       answers[index].liked = true;
       answers[index].likeNumber += 1;
       answers[index].likeClass = 'bi bi-heart-fill';
-      likeAnswer(answerId);
+      likeAnswer(answerId, answers[index].answeredBy);
     }
   }
+  let isInView;
+  const options = {};
 </script>
 
-{#each answers as answer}
-  <div class="card border-light mt-4 shadow-sm rounded">
-    <div class="card-header bg-white border-light">
-      <img
-        src={profileUrl + 'pic' + answer.profilePictureCode + '.png'}
-        alt=""
-        height="30"
-      />
-      <b>{answer.answeredBy}</b> &emsp;
-      <small class="text-muted">{answer.createdAt}</small>
+<div>
+  {#each answers as answer}
+    <div class="card border-light mt-4 shadow-sm rounded">
+      <div class="card-header bg-white border-light">
+        <img
+          src={profileUrl + 'pic' + answer.profilePictureCode + '.png'}
+          alt=""
+          height="30"
+        />
+        <b>{answer.answeredBy}</b> &emsp;
+        <small class="text-muted">{answer.createdAt}</small>
+      </div>
+      <div class="card-body text-secondary">
+        <p class="card-text">
+          {answer.answer}
+        </p>
+      </div>
+      <div class="card-body text-secondary">
+        <input type="button" class="btn-check" id={answer.id} />
+        <label
+          style="border-radius: 100%;"
+          class="btn btn-outline-primary"
+          for={answer.id}
+          id={answer.id}
+          on:click={toggleLike}
+          on:keydown={null}><i class={answer.likeClass} /></label
+        > <small class="text-muted">{answer.likeNumber} likes</small> &ensp;
+      </div>
     </div>
-    <div class="card-body text-secondary">
-      <p class="card-text">
-        {answer.answer}
-      </p>
-    </div>
-    <div class="card-body text-secondary">
-      <input type="button" class="btn-check" id={answer.id} />
-      <label
-        style="border-radius: 100%;"
-        class="btn btn-outline-primary"
-        for={answer.id}
-        id={answer.id}
-        on:click={toggleLike}
-        on:keydown={null}><i class={answer.likeClass} /></label
-      > <small class="text-muted">{answer.likeNumber} likes</small> &ensp;
-    </div>
-  </div>
-{/each}
-{#if startLoadMore == true}
-  <div use:inview={{}} on:change={loadMoreAnswers} />
-{/if}
+  {/each}
+  {#if answers.length >= 1}
+    <div use:inview={{}} on:enter={loadMoreAnswers} />
+  {/if}
+</div>

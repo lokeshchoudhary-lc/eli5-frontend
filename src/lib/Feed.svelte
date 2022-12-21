@@ -2,7 +2,7 @@
   import axios from 'axios';
   import { onMount } from 'svelte';
   import { profanity } from '@2toad/profanity';
-  import { replace } from 'svelte-spa-router';
+  import { link, replace } from 'svelte-spa-router';
 
   import Answers from './components/Answers.svelte';
 
@@ -182,6 +182,19 @@
     }
   }
 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    } else {
+      return false;
+    }
+  }
+  if (getCookie('loginState') == false) {
+    replace('/');
+  }
+
   onMount(async () => {
     await getFeed();
     await getLeaderboard();
@@ -328,6 +341,7 @@
         <div class="row align-items-center">
           <div class="col">
             <p class="h5">{selectedQuestion} ?</p>
+            <span class="badge text-bg-primary">Explain like I'm five</span>
           </div>
           <div class="col text-end">
             <button
@@ -348,6 +362,7 @@
         <div class="row align-items-center">
           <div class="col-10">
             <b>{selectedQuestion} ?</b>
+            <span class="badge text-bg-primary">Explain like I'm five</span>
           </div>
           <div class="col-2 text-end">
             <button
@@ -355,8 +370,8 @@
               class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
               data-bs-toggle="modal"
               data-bs-target={boolAnswered ? '' : '#writeelif'}
-              ><i class="bi bi-pen" /> </button
-            >
+              ><i class="bi bi-pen" />
+            </button>
           </div>
         </div>
       </div>
@@ -369,7 +384,8 @@
               alt=""
               height="30"
             />
-            <b>{userAnswer.answeredBy}</b> &emsp; <span class="badge rounded-pill bg-success">Your Answer</span>
+            <b>{userAnswer.answeredBy}</b> &emsp;
+            <span class="badge rounded-pill bg-success">Your Answer</span>
           </div>
           <div class="card-body text-secondary">
             <p class="card-text">
@@ -463,12 +479,13 @@
           </ul>
 
           <a
-          data-bs-toggle="modal"
-          data-bs-target="#video"
-          href={null}
+            data-bs-toggle="modal"
+            data-bs-target="#video"
+            href={null}
             class="btn btn-outline-secondary">Watch how it works</a
           >
-           <i class="bi bi-info-circle" /> <a class="link-dark" href="google.com">Rules</a>
+          <i class="bi bi-info-circle" />
+          <a class="link-dark" href="/rules" use:link>Rules</a>
         </div>
       </div>
 
@@ -543,7 +560,13 @@
       </div>
       <div class="modal-body">
         <div class="embed-responsive embed-responsive">
-          <iframe src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe
+            src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0"
+            title=""
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          />
         </div>
       </div>
     </div>

@@ -108,7 +108,11 @@
     <!-- Google SignIn -->
 
     <div class="container mt-5 mb-5">
-      <a href={null} data-bs-toggle="modal" data-bs-target="#video"
+      <a
+        href={null}
+        data-bs-toggle="modal"
+        data-bs-target="#video"
+        style="color: #3366FF;"
         ><i
           class="bi bi-play-circle"
           style="color: #3366FF; font-size: xx-large; padding-right: 10px;"
@@ -121,17 +125,16 @@
       src="/assets/images/testm.png"
       class="img-fluid rounded-3 d-lg-none"
       loading="lazy"
-      alt=""
+      alt="Eli5 testimonials - people love eli5"
     />
     <img
       src="/assets/images/testimonial.png"
       class="img-fluid rounded-3 d-none d-lg-block"
       loading="lazy"
-      alt=""
+      alt="Eli5 testimonials - people love eli5"
     />
   </div>
 </div>
-
 
 <!-- Video Modal -->
 <div
@@ -154,7 +157,13 @@
       </div>
       <div class="modal-body">
         <div class="embed-responsive embed-responsive">
-          <iframe src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe
+            src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0"
+            title=""
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          />
         </div>
       </div>
     </div>
