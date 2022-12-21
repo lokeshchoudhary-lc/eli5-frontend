@@ -104,7 +104,10 @@
 
   async function chooseTag(event) {
     selectedQuestionId = event.currentTarget.id;
-    selectedQuestion = event.currentTarget.value;
+    let index = feed.findIndex(
+      (feed) => selectedQuestionId == feed.question.id
+    );
+    selectedQuestion = feed[index].question.question;
     await getUserAnswer(selectedQuestionId);
   }
 
@@ -293,7 +296,6 @@
         type="button"
         class="btn-check"
         id={feeditem.question.id}
-        value={feeditem.question.question}
       />
       <label class="btn btn-outline-primary mx-4" for={feeditem.question.id}
         >{feeditem.tag}</label
@@ -312,7 +314,6 @@
         type="button"
         class="btn-check"
         id={feeditem.question.id}
-        value={feeditem.question.question}
       />
       <label class="btn btn-outline-primary mx-4" for={feeditem.question.id}
         >{feeditem.tag}</label
