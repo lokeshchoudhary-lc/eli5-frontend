@@ -125,16 +125,25 @@
 
   async function likeAnswer(answerId, answeredBy) {
     try {
-      const response = await axios.put(`/like/${answerId}/${answeredBy}`);
-      console.log(response);
+      let tmp = answeredBy.split('#');
+      let name = tmp[0];
+      let number = tmp[1];
+      const response = await axios.put(
+        `/like/${answerId}?answeredBy=${name}&number=${number}`
+      );
     } catch (error) {
       console.log(error);
     }
   }
   async function cancellikeAnswer(answerId, answeredBy) {
     try {
-      const response = await axios.put(`/cancelLike/${answerId}/${answeredBy}`);
-      console.log(response);
+      let tmp = answeredBy.split('#');
+
+      let name = tmp[0];
+      let number = tmp[1];
+      const response = await axios.put(
+        `/cancelLike/${answerId}?answeredBy=${name}&number=${number}`
+      );
     } catch (error) {
       console.log(error);
     }
@@ -158,8 +167,6 @@
       likeAnswer(answerId, answers[index].answeredBy);
     }
   }
-  let isInView;
-  const options = {};
 </script>
 
 <div>
