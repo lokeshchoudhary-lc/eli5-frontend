@@ -169,37 +169,35 @@
   }
 </script>
 
-<div>
-  {#each answers as answer}
-    <div class="card border-light mt-4 shadow-sm rounded">
-      <div class="card-header bg-white border-light">
-        <img
-          src={profileUrl + 'pic' + answer.profilePictureCode + '.png'}
-          alt=""
-          height="30"
-        />
-        <b>{answer.answeredBy}</b> &emsp;
-        <small class="text-muted">{answer.createdAt}</small>
-      </div>
-      <div class="card-body text-secondary">
-        <p class="card-text">
-          {answer.answer}
-        </p>
-      </div>
-      <div class="card-body text-secondary">
-        <input type="button" class="btn-check" id={answer.id} />
-        <label
-          style="border-radius: 100%;"
-          class="btn btn-outline-primary"
-          for={answer.id}
-          id={answer.id}
-          on:click={toggleLike}
-          on:keydown={null}><i class={answer.likeClass} /></label
-        > <small class="text-muted">{answer.likeNumber} likes</small> &ensp;
-      </div>
+{#each answers as answer}
+  <div class="card border-light mt-4 shadow-sm rounded">
+    <div class="card-header bg-white border-light">
+      <img
+        src={profileUrl + 'pic' + answer.profilePictureCode + '.png'}
+        alt=""
+        height="30"
+      />
+      <b>{answer.answeredBy}</b> &emsp;
+      <small class="text-muted">{answer.createdAt}</small>
     </div>
-  {/each}
-  {#if answers.length >= 1}
-    <div use:inview={{}} on:enter={loadMoreAnswers} />
-  {/if}
-</div>
+    <div class="card-body text-secondary">
+      <p class="card-text">
+        {answer.answer}
+      </p>
+    </div>
+    <div class="card-body text-secondary">
+      <input type="button" class="btn-check" id={answer.id} />
+      <label
+        style="border-radius: 100%;"
+        class="btn btn-outline-primary"
+        for={answer.id}
+        id={answer.id}
+        on:click={toggleLike}
+        on:keydown={null}><i class={answer.likeClass} /></label
+      > <small class="text-muted">{answer.likeNumber} likes</small> &ensp;
+    </div>
+  </div>
+{/each}
+{#if answers.length >= 1}
+  <div use:inview={{}} on:enter={loadMoreAnswers} />
+{/if}
