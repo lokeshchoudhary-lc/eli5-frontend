@@ -205,6 +205,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Feed</title>
+</svelte:head>
+
 <!-- Mobile Bootom NavBar -->
 <nav
   class="navbar navbar-light bg-light fixed-bottom d-lg-none px-4 py-2 shadow-lg border-top rounded"
