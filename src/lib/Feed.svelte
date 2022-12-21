@@ -182,19 +182,6 @@
     }
   }
 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      return parts.pop().split(';').shift();
-    } else {
-      return false;
-    }
-  }
-  if (getCookie('loginState') == false) {
-    replace('/');
-  }
-
   onMount(async () => {
     await getFeed();
     await getLeaderboard();
