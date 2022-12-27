@@ -234,9 +234,9 @@
 <nav
   class="navbar navbar-light bg-light fixed-bottom d-lg-none px-4 py-2 shadow-lg border-top rounded"
 >
-<a class="btn btn-primary border-0" on:click={previous} href={null}><i class="bi bi-arrow-left fs-4"></i></a>
+<a class="btn btn-primary border-0" href={null}><i class="bi bi-arrow-left fs-4"></i></a>
 <a class="btn btn-outline-primary border-0" data-bs-toggle="modal" data-bs-target="#suggest" data-bs-whatever="@amazing_ritik"><i class="bi bi-plus-circle fs-2" style="color: #0d6efd"></i></a>
-<button class="btn btn-primary border-0" on:click={next} href={null} id="next"><i class="bi bi-arrow-right fs-4"></i></button>
+<button class="btn btn-primary border-0" href={null} id="next"><i class="bi bi-arrow-right fs-4"></i></button>
 </nav>
 
 <!-- floating pen write button will see about it 
