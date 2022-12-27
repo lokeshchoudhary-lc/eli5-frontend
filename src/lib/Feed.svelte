@@ -183,6 +183,29 @@
     }
   }
 
+  // async function next() {
+  //   document.getElementById("slide").style.translate='-100px';
+
+  //   let id = null;
+  // const elem = document.getElementById("slide");   
+  // let pos = 0;
+  // clearInterval(id);
+  // id = setInterval(frame, 5);
+  // function frame() {
+  //   if (pos == 350) {
+  //     clearInterval(id);
+  //   } else {
+  //     pos++; 
+  //     elem.style.top = pos + "px"; 
+  //     elem.style.left = pos + "px"; 
+  //   }
+  // }
+  // }
+
+  // async function previous() {
+  //   alert("previous");
+  // }
+
   onMount(async () => {
     await getFeed();
     await getLeaderboard();
@@ -206,13 +229,14 @@
   });
 </script>
 
+
 <!-- Mobile Bootom NavBar -->
 <nav
   class="navbar navbar-light bg-light fixed-bottom d-lg-none px-4 py-2 shadow-lg border-top rounded"
 >
-<a class="btn btn-primary border-0" ><i class="bi bi-arrow-left fs-4"></i></a>
+<a class="btn btn-primary border-0" on:click={previous} href={null}><i class="bi bi-arrow-left fs-4"></i></a>
 <a class="btn btn-outline-primary border-0" data-bs-toggle="modal" data-bs-target="#suggest" data-bs-whatever="@amazing_ritik"><i class="bi bi-plus-circle fs-2" style="color: #0d6efd"></i></a>
-<a class="btn btn-primary border-0" ><i class="bi bi-arrow-right fs-4"></i></a>
+<button class="btn btn-primary border-0" on:click={next} href={null} id="next"><i class="bi bi-arrow-right fs-4"></i></button>
 </nav>
 
 <!-- floating pen write button will see about it 
@@ -319,49 +343,52 @@
 
 <div class="container mt-3">
   <div class="row mb-5">
-    <div class="col-sm-8">
+    <div class="col-sm-8" id="slide">
       <!-- Deskptop -->
-      <div
-        class="container p-4 shadow-sm rounded d-none d-lg-block"
-        style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
-      >
-        <div class="row align-items-center">
-          <div class="col">
-            <p class="h5">{selectedQuestion} ?</p> 
-            <span class="badge text-bg-primary">Explain like I'm five</span>
-          </div>
-          <div class="col text-end">
-            <button
-              type="button"
-              class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
-              data-bs-toggle="modal"
-              data-bs-target={boolAnswered ? '' : '#writeelif'}
-              ><i class="bi bi-pen" /> Eli5</button
-            >
-          </div>
+        <div
+          class="container p-4 shadow-sm rounded d-none d-lg-block"
+          style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
+        >
+              <div class="row align-items-center">
+                <div class="col-1 text-center fs-4"><a class="btn btn-primary" href={null}><i class="bi bi-arrow-left"></i></a></div>
+                  <div class="col">
+                    <p class="h5">{selectedQuestion} ?</p> 
+                    <span class="badge text-bg-primary">Explain like I'm five</span>
+                  </div>
+                  <div class="col text-end">
+                    <button
+                      type="button"
+                      class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
+                      data-bs-toggle="modal"
+                      data-bs-target={boolAnswered ? '' : '#writeelif'}
+                      ><i class="bi bi-pen" /> Eli5</button
+                    >
+                  </div>
+                  <div class="col-1 text-center fs-4"><a class="btn btn-primary" href={null}><i class="bi bi-arrow-right"></i></a></div>
+              </div>
+
         </div>
-      </div>
       <!-- Mobile -->
-      <div
-        class="container p-4 shadow-sm rounded d-lg-none"
-        style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
-      >
-        <div class="row align-items-center">
-          <div class="col-10">
-            <b>{selectedQuestion} ?</b>
-            <span class="badge text-bg-primary">Explain like I'm five</span>
-          </div>
-          <div class="col-2 text-end">
-            <button
-              type="button"
-              class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
-              data-bs-toggle="modal"
-              data-bs-target={boolAnswered ? '' : '#writeelif'}
-              ><i class="bi bi-pen" /> </button
-            >
+        <div
+          class="container p-4 shadow-sm rounded d-lg-none"
+          style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
+        >
+          <div class="row align-items-center">
+            <div class="col-10">
+              <b>{selectedQuestion} ?</b>
+              <span class="badge text-bg-primary">Explain like I'm five</span>
+            </div>
+            <div class="col-2 text-end">
+              <button
+                type="button"
+                class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
+                data-bs-toggle="modal"
+                data-bs-target={boolAnswered ? '' : '#writeelif'}
+                ><i class="bi bi-pen" /> </button
+              >
+            </div>
           </div>
         </div>
-      </div>
       <!-- user answer for the above question -->
       {#if userAnswer.answer !== undefined}
         <div class="card border-success mt-4 shadow-sm rounded">
@@ -538,7 +565,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">How it works</h5>
@@ -566,7 +593,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Profile Detials</h5>
@@ -607,7 +634,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Leaderboard</h5>
@@ -800,7 +827,7 @@
   aria-labelledby="writeeliflabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <img
@@ -897,6 +924,12 @@
   </div>
 </div> -->
 <style>
+
+#next:active {
+    box-shadow: 2px 2px 5px #fc894d;
+    translate: 100px;
+}
+
   .tags {
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none; /* Firefox */
