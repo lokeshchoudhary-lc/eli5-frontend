@@ -106,6 +106,7 @@
     selectedQuestionId = event.currentTarget.id;
     selectedQuestion = event.currentTarget.value;
     await getUserAnswer(selectedQuestionId);
+
   }
 
   async function submitAnswer(event) {
@@ -209,26 +210,9 @@
 <nav
   class="navbar navbar-light bg-light fixed-bottom d-lg-none px-4 py-2 shadow-lg border-top rounded"
 >
-  <a class="btn" id="btn-back-to-top" on:click={scrollOnTop} on:keypress={null}
-    ><i class="bi bi-house fs-4 text-secondary" /></a
-  >
-  <a href={null} class="btn" data-bs-toggle="modal" data-bs-target="#profile"
-    ><i class="bi bi-sunglasses fs-4 text-secondary" /></a
-  >
-  <a href={null} class="btn" data-bs-toggle="modal" data-bs-target="#video"
-    ><i class="bi bi-youtube fs-4 text-secondary" /></a
-  >
-  <a
-    href={null}
-    class="btn"
-    data-bs-toggle="modal"
-    data-bs-target="#leaderboard"
-    ><i class="bi bi-bar-chart-fill fs-4 text-secondary" /></a
-  >
-  <!-- logout logic needed -->
-  <a on:click={logout} class="btn" href={null}
-    ><i class="bi bi-box-arrow-right fs-4 text-secondary" /></a
-  >
+<a class="btn btn-primary border-0" ><i class="bi bi-arrow-left fs-4"></i></a>
+<a class="btn btn-outline-primary border-0" data-bs-toggle="modal" data-bs-target="#suggest" data-bs-whatever="@amazing_ritik"><i class="bi bi-plus-circle fs-2" style="color: #0d6efd"></i></a>
+<a class="btn btn-primary border-0" ><i class="bi bi-arrow-right fs-4"></i></a>
 </nav>
 
 <!-- floating pen write button will see about it 
@@ -251,10 +235,16 @@
         <img
           src={profileUrl + 'pic' + profilePictureCode + '.png'}
           alt=""
-          height="50"
+          height="30"
         />
-        <b class="display-6">Hey {firstName}</b>
+        <b class="blockquote">Hey {firstName}</b>
       </a>
+
+      <div class="text-end d-lg-none">
+        <a class="btn btn-outline-secondary rounded align-center" data-bs-toggle="modal" data-bs-target="#profile"><i class="bi bi-sunglasses"></i></a>
+        <a class="btn btn-outline-secondary rounded align-center" data-bs-toggle="modal" data-bs-target="#leaderboard"><i class="bi bi-bar-chart-fill"></i></a>
+        <a class="btn btn-outline-secondary rounded align-center" on:click={logout} href={null}><i class="bi bi-box-arrow-right"></i></a>
+      </div>
 
       <div class="form d-none d-lg-block">
         <button class="btn btn-outline-secondary mx-4 btn-sm"
@@ -279,10 +269,13 @@
 
   <!-- Desktop -->
   <div
-    class="container mt-3 d-none d-lg-block"
+    class="container mt-3 d-none d-lg-block overflow-auto"
     role="group"
     aria-label="Basic radio toggle button group"
-  >
+  > 
+
+  <button type="button" class="btn btn-outline-secondary mx-1 rounded-pill explore" data-bs-toggle="modal" data-bs-target="#explore">Explore</button>
+
     {#each feed as feeditem}
       <input
         on:click={chooseTag}
@@ -291,17 +284,22 @@
         id={feeditem.question.id}
         value={feeditem.question.question}
       />
-      <label class="btn btn-outline-primary mx-4" for={feeditem.question.id}
+      <label class="btn btn-outline-primary mx-1" for={feeditem.question.id}
         >{feeditem.tag}</label
       >
     {/each}
+
+    <button type="button" class="btn btn-outline-primary mx-1 rounded-pill explore">More..</button>
   </div>
   <!-- Mobile overflow-auto -->
   <div
     class="d-flex justify-content-start mt-3 d-lg-none overflow-auto tags"
     role="group"
     aria-label="Basic radio toggle button group"
-  >
+  > 
+
+  <button type="button" class="btn btn-outline-secondary mx-1 rounded-pill explore" data-bs-toggle="modal" data-bs-target="#explore">Explore</button>
+
     {#each feed as feeditem}
       <input
         on:click={chooseTag}
@@ -310,14 +308,16 @@
         id={feeditem.question.id}
         value={feeditem.question.question}
       />
-      <label class="btn btn-outline-primary mx-4" for={feeditem.question.id}
+      <label class="btn btn-outline-primary mx-1" for={feeditem.question.id}
         >{feeditem.tag}</label
       >
     {/each}
+
+    <button type="button" class="btn btn-outline-primary mx-1 rounded-pill explore" >More..</button>
   </div>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-3">
   <div class="row mb-5">
     <div class="col-sm-8">
       <!-- Deskptop -->
@@ -393,7 +393,7 @@
       {/if}
       <!-- end here user answer  -->
 
-      <div class="container mt-3">
+      <div class="container mt-2">
         <div class="row align-items-center">
           <div class="col-2 d-none d-lg-block">Sort by</div>
           <div class="col-10">
@@ -434,6 +434,11 @@
       {#key [sortType, selectedQuestionId, reRender]}
         <Answers {sortType} {selectedQuestionId} />
       {/key}
+
+      <div class="container text-center mt-3 mb-4">
+        <button type="button" class="btn btn-outline-primary mx-2 rounded-pill" ><i class="bi bi-plus"></i>See More</button>
+     </div>
+
     </div>
     <div
       class="col-sm-4 fixed-top d-none d-lg-block"
@@ -521,6 +526,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Button trigger modal -->
 
@@ -647,6 +653,144 @@
     </div>
   </div>
 </div>
+
+<!-- Suggest question -->
+
+<div class="modal fade" id="suggest" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen-sm-down">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Share your thoughts</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form>
+          <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">What do you want to learn as five year old</label>
+              <input type="text" class="form-control" id="recipient-name" placeholder="@amazing_ritik">
+          </div>
+          <div class="mb-3">
+          <label for="message-text" class="col-form-label">Question:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+          </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+      </div>
+  </div>
+  </div>
+
+  <div class="modal fade" id="explore" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-sm-down">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-binoculars"></i>  Explore on Eli5</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Science</div>
+                    <div class="col m-1 p-2 border border-1rounded shadow-sm">JEE</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">UPSC</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Life</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Health</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Sports</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Politics</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Technology</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Trending</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Economy</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Startup</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">VC&Funding</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">News</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Music</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Gaming</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">F1</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Football</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Comedy</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Fifa</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Bollywood</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Wedding</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Winters</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Delhi</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Mumbai</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Kolkata</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Cricket</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Christman</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">NewYear</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Business</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Finance</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Market</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Crypto</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Blockchain</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Biotechnology</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">Engineering</div>
+                    <div class="col m-1 p-2 border border-1 rounded shadow-sm">MBBS</div>
+                  </div>
+                
+            </div>
+
+            <div class="container px-4 py-5 d-lg-none" id="custom-cards">
+                <h2 class="pb-2 border-bottom">Trending on Eli5</h2>
+            
+                <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+                  <div class="col">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: linear-gradient(to right, #000046 , #1CB5E0);;">
+                      <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h3 class="pt-2 mt-2 mb-2 display-6 lh-1 fw-bold">Can there be life on mars?</h3>
+                        <ul class="d-flex list-unstyled mt-auto">
+                          <li class="d-flex align-items-center me-3">
+                            <i class="bi bi-heart-fill"></i>
+                            <small>2K Likes</small>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: linear-gradient(to right, #36D1DC , #5B86E5);;">
+                      <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h3 class="pt-2 mt-2 mb-2 display-6 lh-1 fw-bold">Why basics of computer software works with binary number?</h3>
+                        <ul class="d-flex list-unstyled mt-auto">
+                          <li class="d-flex align-items-center me-3">
+                            <i class="bi bi-heart-fill"></i>
+                            <small>2K Likes</small>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: linear-gradient(to right, #11998e , #38ef7d);;">
+                      <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h3 class="pt-2 mt-2 mb-2 display-6 lh-1 fw-bold">Why everyone is creating reels on instagram?</h3>
+                        <ul class="d-flex list-unstyled mt-auto">
+                          <li class="d-flex align-items-center me-3">
+                            <i class="bi bi-heart-fill"></i>
+                            <small>2K Likes</small>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+            
+                  
+
+
+                  </div>
+                </div>
+              </div>
+
+        </div>
+    </div>
+    </div>
+
+
 
 <!-- Write Elif Modal -->
 <div
