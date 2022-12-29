@@ -267,7 +267,7 @@
       <div class="text-end d-lg-none">
         <a class="btn btn-outline-secondary rounded align-center" data-bs-toggle="modal" data-bs-target="#profile"><i class="bi bi-sunglasses"></i></a>
         <a class="btn btn-outline-secondary rounded align-center" data-bs-toggle="modal" data-bs-target="#leaderboard"><i class="bi bi-bar-chart-fill"></i></a>
-        <a class="btn btn-outline-secondary rounded align-center" on:click={logout} href={null}><i class="bi bi-box-arrow-right"></i></a>
+        <a class="btn btn-outline-danger rounded align-center" on:click={logout} href={null}><i class="bi bi-box-arrow-right"></i></a>
       </div>
 
       <div class="form d-none d-lg-block">
@@ -391,7 +391,7 @@
         </div>
       <!-- user answer for the above question -->
       {#if userAnswer.answer !== undefined}
-        <div class="card border-success mt-4 shadow-sm rounded">
+        <div class="card border-success mt-2 shadow-sm rounded">
           <div class="card-header bg-white border-light">
             <img
               src={profileUrl + 'pic' + profilePictureCode + '.png'}
@@ -415,12 +415,10 @@
             <small class="text-muted">{userAnswer.likeNumber} likes</small> &ensp;
           </div>
         </div>
-        <br />
-        <br />
       {/if}
       <!-- end here user answer  -->
 
-      <div class="container mt-2">
+      <div class="container mt-3">
         <div class="row align-items-center">
           <div class="col-2 d-none d-lg-block">Sort by</div>
           <div class="col-10">
@@ -694,7 +692,7 @@
           <form>
           <div class="mb-3">
               <label for="recipient-name" class="col-form-label">What do you want to learn as five year old</label>
-              <input type="text" class="form-control" id="recipient-name" placeholder="@amazing_ritik">
+              <input type="text" class="form-control" id="recipient-name" disabled placeholder="Posting as: {firstName}">
           </div>
           <div class="mb-3">
           <label for="message-text" class="col-form-label">Question:</label>
@@ -925,10 +923,10 @@
 </div> -->
 <style>
 
-#next:active {
+/* #next:active {
     box-shadow: 2px 2px 5px #fc894d;
     translate: 100px;
-}
+} */
 
   .tags {
     -ms-overflow-style: none; /* Internet Explorer 10+ */

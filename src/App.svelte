@@ -4,6 +4,7 @@
   import axios from 'axios';
   import CompleteProfile from './lib/CompleteProfile.svelte';
   import Feed from './lib/Feed.svelte';
+  import Feed2 from './lib/Feed2.svelte';
   import Home from './lib/Home.svelte';
 
   axios.defaults.baseURL = 'http://localhost:8080/api/v1';
@@ -15,6 +16,8 @@
     '/completeProfile': CompleteProfile,
 
     '/feed': Feed,
+    
+    '/feed2': Feed2,
   };
   function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -34,4 +37,4 @@
 
 <!-- <CompleteProfile /> -->
 
-<!-- <Feed /> -->
+<!-- <Feed2 /> -->
