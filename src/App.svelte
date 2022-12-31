@@ -5,7 +5,9 @@
   import CompleteProfile from './lib/CompleteProfile.svelte';
   import Feed from './lib/Feed.svelte';
   import Feed2 from './lib/Feed2.svelte';
+  import Error from './lib/404.svelte';
   import Home from './lib/Home.svelte';
+  import Garage from './lib/garage.svelte';
 
   axios.defaults.baseURL = 'http://localhost:8080/api/v1';
   axios.defaults.withCredentials = true;
@@ -18,6 +20,10 @@
     '/feed': Feed,
     
     '/feed2': Feed2,
+
+    '/404': Error,
+
+    '/garage': Garage,
   };
   function getCookie(name) {
     const value = `; ${document.cookie}`;

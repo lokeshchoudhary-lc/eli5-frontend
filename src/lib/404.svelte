@@ -1,0 +1,39 @@
+
+    <nav class="navbar navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href={null}>
+            <img src="assets/images/logo.png" alt="" height="50">
+          </a>
+
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link" href="https://getapt.notion.site/Rules-of-Explaining-aac712b1c3d548598df9fb6854fdeb1a">Rules</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://getapt.notion.site/Privacy-Policy-da5d9e515b764393970feb2a1dbe7734">Privacy Policy</a>
+            </li>
+          </ul>
+
+        </div>
+      </nav>
+
+      <div class="px-4 pt-5 mt-5 text-center border-bottom">
+        <div class="container">
+            <div class="container px-5">
+              <img src="./public/assets/images/404.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="300" height="200" loading="lazy">
+            </div>
+          </div>
+        <h1 class="display-4 fw-bold">404 page not found!</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4"><b>What is a 404 page?</b><br/>A 404 error indicates that the webpage you're trying to reach can't be found. When your favourite store changes its location, they add a sign on its previous location so that you can navigate to the new store location. That's what 404 pages are. </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Go home</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Read rules</button>
+          </div>
+        </div>
+        
+      </div>
+
+    
+
+
