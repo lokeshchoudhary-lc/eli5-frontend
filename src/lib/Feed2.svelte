@@ -303,7 +303,7 @@
           <a
             on:click={logout}
             href={null}
-            class="btn btn-outline-secondary mx-4 btn-sm"
+            class="btn btn-outline-danger mx-4 btn-sm"
             ><i class="bi bi-box-arrow-right" /> Logout</a
           >
         </div>

@@ -280,11 +280,16 @@
         <button class="btn btn-outline-secondary mx-4 btn-sm"
           ><i class="bi bi-heart-fill" />{totalLikes} Likes</button
         >
+
+        <button class="btn btn-outline-secondary mx-4 btn-sm" data-bs-toggle="modal" data-bs-target="#suggest"
+          ><i class="bi bi-plus" /> Ask Question</button
+        >
+
         <!-- logout logic needed -->
         <a
           on:click={logout}
           href={null}
-          class="btn btn-outline-secondary mx-4 btn-sm"
+          class="btn btn-outline-danger mx-4 btn-sm"
           ><i class="bi bi-box-arrow-right" /> Logout</a
         >
       </div>
