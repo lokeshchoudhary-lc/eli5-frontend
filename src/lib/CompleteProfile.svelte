@@ -44,7 +44,7 @@
           generateUniqueAlias();
         }
       });
-    replace('/feed');
+    replace('/homeFeed');
   }
 
   function generate(n) {

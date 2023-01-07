@@ -22,7 +22,7 @@
     try {
       const response = await axios.get(`/userCheck/${email}`);
       if (response.data == 'go_to_feed') {
-        replace('/feed');
+        replace('/homeFeed');
       }
       if (response.data == 'go_to_completeProfile') {
         replace('/completeProfile');
@@ -49,38 +49,16 @@
 
 <NavBar />
 
-<div class="px-4 pt-5 mt-3 text-center">
+<div class="px-4 pt-5 mt-1 text-center ">
   <h1 class="display-4 fw-bold">Why don’t you</h1>
   <h1 class="display-4 fw-bold text-primary">
     Explain this to me like I’m five
   </h1>
   <div class="col-lg-6 mx-auto">
-    <p class="lead mb-4">
+    <p class="lead mb-4 fs-6">
       Join the ELI5 club and explain questions like you would do to 5 year
       olds!!
     </p>
-
-    <!-- Google SignIn -->
-    <!-- <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-2">
-      <a href="/completeProfile" class="text-decoration-none" use:link>
-        <button class="btn btn-primary btn-lg px-4 py-3 me-sm-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-google"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"
-            />
-          </svg>
-          Sign in with Google
-        </button></a
-      >
-    </div> -->
-    <!-- Google SignIn -->
 
     <!-- Google SignIn -->
 
@@ -104,68 +82,108 @@
         data-logo_alignment="left"
       />
     </div>
+    <br />
 
     <!-- Google SignIn -->
-
-    <div class="container mt-5 mb-5">
-      <a
-        href={null}
-        data-bs-toggle="modal"
-        data-bs-target="#video"
-        style="color: #3366FF;"
-        ><i
-          class="bi bi-play-circle"
-          style="color: #3366FF; font-size: xx-large; padding-right: 10px;"
-        /> See how it works</a
-      >
-    </div>
   </div>
-  <div class="container" style="width: 100%">
-    <img
-      src="/assets/images/testm.png"
-      class="img-fluid rounded-3 d-lg-none"
-      loading="lazy"
-      alt="Eli5 testimonials - people love eli5"
-    />
-    <img
-      src="/assets/images/testimonial.png"
-      class="img-fluid rounded-3 d-none d-lg-block"
-      loading="lazy"
-      alt="Eli5 testimonials - people love eli5"
-    />
-  </div>
-</div>
 
-<!-- Video Modal -->
-<div
-  class="modal fade"
-  id="video"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">How it works</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
+  <!-- Desktop -->
+
+  <div
+    id="carouselExampleControls"
+    class="carousel slide d-none d-lg-block"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="2500">
+        <img
+          src="/assets/images/carousel/img1.png"
+          class="img-fluid w-75"
+          alt="Eli5 - Put on your explaining hat and start answering"
         />
       </div>
-      <div class="modal-body">
-        <div class="embed-responsive embed-responsive">
-          <iframe
-            src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0"
-            title=""
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          />
-        </div>
+      <div class="carousel-item" data-bs-interval="2500">
+        <img
+          src="/assets/images/carousel/img2.png"
+          class="img-fluid w-75"
+          alt="Eli5 - Share and challenge your friends to answer questions"
+        />
+      </div>
+      <div class="carousel-item" data-bs-interval="2500">
+        <img
+          src="/assets/images/carousel/img3.png"
+          class="img-fluid w-75"
+          alt="Explore top answers and show off"
+        />
       </div>
     </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true" />
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true" />
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Mobile -->
+
+  <div
+    id="carouselExampleControls"
+    class="carousel slide d-lg-none"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="2500">
+        <img
+          src="/assets/images/carousel/imgm1.png"
+          class="img-fluid"
+          alt="Eli5 - Put on your explaining hat and start answering"
+        />
+      </div>
+      <div class="carousel-item" data-bs-interval="2500">
+        <img
+          src="/assets/images/carousel/imgm2.png"
+          class="img-fluid"
+          alt="Eli5 - Share and challenge your friends to answer questions"
+        />
+      </div>
+      <div class="carousel-item" data-bs-interval="2500">
+        <img
+          src="/assets/images/carousel/imgm3.png"
+          class="img-fluid"
+          alt="Explore top answers and show off"
+        />
+      </div>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true" />
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true" />
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
 </div>
