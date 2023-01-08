@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import axios from 'axios';
-  import { inview } from 'svelte-inview/dist/index';
+  import { noAnswerContent } from '../store';
 
   let profileUrl = '/assets/images/profile/';
 
@@ -10,50 +10,7 @@
 
   let page = 1;
   let loadMore = true;
-  let startLoadMore = false;
   $: answers = [];
-
-  // let answers = [
-  //   {
-  //     uniqueAlias: 'rider_ritik',
-  //     answeredBy: '1',
-  //     answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-  //       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-  //       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-  //       commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-  //       velit esse cillum dolore eu fugia`,
-  //     id: '1111',
-  //     likeNumber: 100,
-  //     liked: true,
-  //     profilePictureCode: 1,
-  //   },
-  //   {
-  //     uniqueAlias: 'rider_ritik',
-  //     answeredBy: '2',
-  //     answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-  //       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-  //       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-  //       commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-  //       velit esse cillum dolore eu fugia`,
-  //     id: '2222',
-  //     likeNumber: 100,
-  //     liked: false,
-  //     profilePictureCode: 2,
-  //   },
-  //   {
-  //     uniqueAlias: 'rider_ritik',
-  //     answeredBy: '33333',
-  //     answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-  //       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-  //       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-  //       commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-  //       velit esse cillum dolore eu fugia`,
-  //     id: '3',
-  //     likeNumber: 100,
-  //     liked: true,
-  //     profilePictureCode: 3,
-  //   },
-  // ];
 
   function findLikeClassAndTime() {
     answers.forEach((answer) => {
@@ -79,12 +36,16 @@
       const response = await axios.get(
         `/answers/${selectedQuestionId}?sort=${sortType}`
       );
-      console.log(response);
+      // console.log(response);
       if (response.status == 204) {
         loadMore = false;
+        noAnswerContent.set(true);
         return;
       }
-
+      if (response.data.length < 10) {
+        loadMore = false;
+      }
+      noAnswerContent.set(false);
       answers = [...response.data];
       findLikeClassAndTime();
     } catch (error) {
@@ -101,11 +62,14 @@
       const response = await axios.get(
         `/answers/${selectedQuestionId}?sort=${sortType}&page=${page}`
       );
-      console.log(response);
+      // console.log(response);
 
       if (response.status == 204) {
         loadMore = false;
         return;
+      }
+      if (response.data.length < 10) {
+        loadMore = false;
       }
 
       answers = [...answers, ...response.data];
@@ -117,9 +81,7 @@
 
   if (sortType != undefined && selectedQuestionId != undefined) {
     onMount(async () => {
-      console.log(sortType, selectedQuestionId);
       await getAnswers();
-      // startLoadMore = true;
     });
   }
 
@@ -177,15 +139,15 @@
         alt=""
         height="30"
       />
-      <b>{answer.answeredBy}</b> &emsp;
+      <b class="small">{answer.answeredBy}</b> &emsp;
       <small class="text-muted">{answer.createdAt}</small>
     </div>
-    <div class="card-body text-secondary">
-      <p class="card-text">
-        {answer.answer}
+    <div class="card-body text-secondary pb-1">
+      <p class="card-text small text-secondary">
+        {@html answer.answer}
       </p>
     </div>
-    <div class="card-body text-secondary">
+    <div class="card-body text-secondary pt-0">
       <input type="button" class="btn-check" id={answer.id} />
       <label
         style="border-radius: 100%;"
@@ -198,6 +160,13 @@
     </div>
   </div>
 {/each}
-{#if answers.length >= 1}
-  <div use:inview={{}} on:enter={loadMoreAnswers} />
+{#if loadMore != false}
+  <div class="container text-center mt-3 mb-4">
+    <button
+      on:click={loadMoreAnswers}
+      type="button"
+      class="btn btn-outline-primary mx-2 rounded-pill"
+      ><i class="bi bi-plus" />See More</button
+    >
+  </div>
 {/if}

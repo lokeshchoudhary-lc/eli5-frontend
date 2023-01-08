@@ -3,10 +3,18 @@
   import { onMount } from 'svelte';
   import { profanity } from '@2toad/profanity';
   import { link, replace } from 'svelte-spa-router';
+  import {
+    textEditorHtml,
+    userChoosenTagState,
+    userChoosenQuestionState,
+    noAnswerContent,
+  } from './store';
 
   import Answers from './components/Answers.svelte';
+  import TipTapEditor from './components/TipTapEditor.svelte';
 
   let textAreaAnswer = '';
+  let textAreaAskQuestion = '';
   let boolAnswered = false;
 
   let profileUrl = '/assets/images/profile/';
@@ -17,75 +25,40 @@
   let totalAnswers = '';
   let streak = '';
 
-  //////////////////////////////////////
   let userAnswer = {};
-  // let userAnswer = {
-  //   uniqueAlias: 'rider_ritik',
-  //   answeredBy: '33433',
-  //   answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-  //       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-  //       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-  //       commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-  //       velit esse cillum dolore eu fugia`,
-  //   id: '33',
-  //   likeNumber: 100,
-  //   liked: true,
-  // };
-  ////////////////////////////////////////////
+
+  let userChoosenTag;
+  let userChoosenQuestion;
+
+  let noAnswer;
+
+  noAnswerContent.subscribe((value) => {
+    noAnswer = value;
+  });
+
+  userChoosenTagState.subscribe((value) => {
+    userChoosenTag = value;
+  });
+
+  userChoosenQuestionState.subscribe((value) => {
+    userChoosenQuestion = value;
+  });
 
   let selectedQuestion;
   let selectedQuestionId;
 
+  let nextPage = 1;
+  let backPage = 1;
   let sortType;
-  let feed = [];
   let reRender = false;
+  let explore = [];
 
-  // let feed = [
-  //   {
-  //     tag: 'Computer',
-  //     question: {
-  //       id: '1',
-  //       question: 'question 1',
-  //     },
-  //   },
-  //   {
-  //     tag: 'Golang',
-  //     question: {
-  //       id: '2',
-  //       question: 'question 2',
-  //     },
-  //   },
-  // ];
-
-  // let leaderboard = [
-  //   {
-  //     uniqueAlias: 'rider_ritik',
-  //     totalLikes: 100,
-  //     totalAnswers: 1000,
-  //     profilePictureCode: 1,
-  //   },
-  //   {
-  //     uniqueAlias: 'rider_ritik',
-  //     totalLikes: 100,
-  //     totalAnswers: 1000,
-  //     profilePictureCode: 16,
-  //   },
-  //   {
-  //     uniqueAlias: 'rider_ritik',
-  //     totalLikes: 100,
-  //     totalAnswers: 1000,
-  //     profilePictureCode: 11,
-  //   },
-  //   {
-  //     uniqueAlias: 'rider_ritik',
-  //     totalLikes: 100,
-  //     totalAnswers: 1000,
-  //     profilePictureCode: 5,
-  //   },
-  // ];
   let leaderboard = [];
 
   let smleaderboard = [];
+
+  let questionFeed = new Map();
+  let counter = 0;
 
   async function getUserAnswer(questionId) {
     try {
@@ -102,16 +75,11 @@
     }
   }
 
-  async function chooseTag(event) {
-    selectedQuestionId = event.currentTarget.id;
-    let index = feed.findIndex(
-      (feed) => selectedQuestionId == feed.question.id
-    );
-    selectedQuestion = feed[index].question.question;
-    await getUserAnswer(selectedQuestionId);
-  }
-
   async function submitAnswer(event) {
+    textEditorHtml.subscribe((value) => {
+      textAreaAnswer = value.getHTML();
+    });
+
     if (profanity.exists(textAreaAnswer)) {
       alert('Usage of Bad Words Found');
       return;
@@ -156,43 +124,168 @@
     replace('/');
   }
 
-  function scrollOnTop() {
-    document.body.scrollIntoView();
+  async function getExploreTags() {
+    try {
+      const response = await axios.get(`/explore`);
+      // console.log(response);
+      explore = [...response.data];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function chooseExploreTag(event) {
+    let tag = event.currentTarget.id;
+    userChoosenTagState.set(tag);
+    localStorage.setItem('userChoosenTag', tag);
+    replace('/exploreQuestions');
   }
 
-  async function getFeed() {
+  async function getUserDetails() {
     try {
-      const response = await axios.get('/feed');
-      console.log(response);
+      const response = await axios.get('/userDetails');
+      // console.log(response);
 
       firstName = response.data.firstName;
       profilePictureCode = response.data.profilePictureCode;
       streak = response.data.streak;
       totalLikes = response.data.totalLikes;
       totalAnswers = response.data.totalAnswers;
-      feed = [...response.data.feed];
     } catch (error) {
       console.log(error);
     }
   }
+
   async function getLeaderboard() {
     try {
       const response = await axios.get('/leaderboard');
-      console.log(response);
+      // console.log(response);
       leaderboard = response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function nextQuestion() {
+    try {
+      let tmpCounter = counter;
+      tmpCounter++;
+      if (questionFeed.has(tmpCounter)) {
+        if (questionFeed.get(tmpCounter) == 'no_content') {
+          return;
+        }
+        counter = tmpCounter;
+        let result = questionFeed.get(counter);
+        selectedQuestion = result.question;
+        selectedQuestionId = result.id;
+        await getUserAnswer(selectedQuestionId);
+      } else {
+        const response = await axios.get(
+          `/question/${selectedQuestionId}?tag=${userChoosenTag}&page=${nextPage}&action=next`
+        );
+        // console.log(response);
+        if (response.status == 204) {
+          questionFeed.set(tmpCounter, 'no_content');
+          return;
+        }
+        nextPage++;
+        response.data.forEach((element) => {
+          counter++;
+          questionFeed.set(counter, element);
+        });
+        counter = tmpCounter;
+        let result = questionFeed.get(counter);
+        selectedQuestion = result.question;
+        selectedQuestionId = result.id;
+        await getUserAnswer(selectedQuestionId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function previousQuestion() {
+    try {
+      let tmpCounter = counter;
+      tmpCounter--;
+      if (questionFeed.has(tmpCounter)) {
+        if (questionFeed.get(tmpCounter) == 'no_content') {
+          return;
+        }
+        counter = tmpCounter;
+        let result = questionFeed.get(counter);
+        selectedQuestion = result.question;
+        selectedQuestionId = result.id;
+        await getUserAnswer(selectedQuestionId);
+      } else {
+        const response = await axios.get(
+          `/question/${selectedQuestionId}?tag=${userChoosenTag}&page=${backPage}&action=back`
+        );
+        // console.log(response);
+        if (response.status == 204) {
+          questionFeed.set(tmpCounter, 'no_content');
+          return;
+        }
+        backPage++;
+        response.data.forEach((element) => {
+          counter--;
+          questionFeed.set(counter, element);
+        });
+        counter = tmpCounter;
+        let result = questionFeed.get(counter);
+        selectedQuestion = result.question;
+        selectedQuestionId = result.id;
+        await getUserAnswer(selectedQuestionId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function askQuestion() {
+    try {
+      if (textAreaAskQuestion == '') {
+        return;
+      }
+      await axios.post('/question/ask', {
+        question: textAreaAskQuestion,
+      });
+      textAreaAskQuestion = '';
     } catch (error) {
       console.log(error);
     }
   }
 
   onMount(async () => {
-    await getFeed();
-    await getLeaderboard();
+    if (userChoosenQuestion == null) {
+      userChoosenTag = localStorage.getItem('userChoosenTag');
+      const response = await axios.get(`/singleQuestion/${userChoosenTag}`);
+      selectedQuestion = response.data.question;
+      selectedQuestionId = response.data.id;
+      questionFeed.set(0, response.data);
+    } else {
+      if (
+        userChoosenQuestion.question != null &&
+        userChoosenQuestion.id != null
+      ) {
+        localStorage.setItem(
+          'userChoosenQuestion',
+          userChoosenQuestion.question
+        );
+        localStorage.setItem('userChoosenQuestionId', userChoosenQuestion.id);
+      }
+
+      selectedQuestion = localStorage.getItem('userChoosenQuestion');
+      selectedQuestionId = localStorage.getItem('userChoosenQuestionId');
+      questionFeed.set(0, userChoosenQuestion);
+    }
+
+    if (localStorage.getItem('userChoosenQuestion') != null) {
+      selectedQuestion = localStorage.getItem('userChoosenQuestion');
+      selectedQuestionId = localStorage.getItem('userChoosenQuestionId');
+      questionFeed.set(0, userChoosenQuestion);
+    }
 
     sortType = 'trending';
 
-    selectedQuestion = feed[0].question.question;
-    selectedQuestionId = feed[0].question.id;
+    await getUserDetails();
+    await getLeaderboard();
 
     await getUserAnswer(selectedQuestionId);
     let len = leaderboard.length;
@@ -216,40 +309,20 @@
 <nav
   class="navbar navbar-light bg-light fixed-bottom d-lg-none px-4 py-2 shadow-lg border-top rounded"
 >
-  <a class="btn" id="btn-back-to-top" on:click={scrollOnTop} on:keypress={null}
-    ><i class="bi bi-house fs-4 text-secondary" /></a
-  >
-  <a href={null} class="btn" data-bs-toggle="modal" data-bs-target="#profile"
-    ><i class="bi bi-sunglasses fs-4 text-secondary" /></a
-  >
-  <a href={null} class="btn" data-bs-toggle="modal" data-bs-target="#video"
-    ><i class="bi bi-youtube fs-4 text-secondary" /></a
+  <a on:click={previousQuestion} href={null} class="btn btn-primary border-0"
+    ><i class="bi bi-arrow-left fs-4" /></a
   >
   <a
     href={null}
-    class="btn"
+    class="btn btn-outline-primary border-0"
     data-bs-toggle="modal"
-    data-bs-target="#leaderboard"
-    ><i class="bi bi-bar-chart-fill fs-4 text-secondary" /></a
+    data-bs-target="#suggest"
+    ><i class="bi bi-plus-circle fs-2" style="color: #0d6efd" /></a
   >
-  <!-- logout logic needed -->
-  <a on:click={logout} class="btn" href={null}
-    ><i class="bi bi-box-arrow-right fs-4 text-secondary" /></a
+  <a on:click={nextQuestion} href={null} class="btn btn-primary border-0"
+    ><i class="bi bi-arrow-right fs-4" /></a
   >
 </nav>
-
-<!-- floating pen write button will see about it 
-<div
-  class="fixed-bottom d-lg-none"
-  style="margin-bottom: 4.4rem; margin-left: 83%;"
->
-  <a
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#writeelif"
-    style="border-radius:100%"><i class="bi bi-pen fs-4 text-light" /></a
-  >
-</div> -->
 
 <div class="container">
   <nav class="navbar navbar-light border-bottom border-light">
@@ -258,10 +331,29 @@
         <img
           src={profileUrl + 'pic' + profilePictureCode + '.png'}
           alt=""
-          height="50"
+          height="30"
         />
-        <b class="display-6">Hey {firstName}</b>
+        <b class="blockquote">Hey {firstName}</b>
       </a>
+      <div class="text-end d-lg-none">
+        <a
+          href={null}
+          class="btn btn-outline-secondary rounded align-center"
+          data-bs-toggle="modal"
+          data-bs-target="#profile"><i class="bi bi-sunglasses" /></a
+        >
+        <a
+          href={null}
+          class="btn btn-outline-secondary rounded align-center"
+          data-bs-toggle="modal"
+          data-bs-target="#leaderboard"><i class="bi bi-bar-chart-fill" /></a
+        >
+        <a
+          class="btn btn-outline-danger rounded align-center"
+          on:click={logout}
+          href={null}><i class="bi bi-box-arrow-right" /></a
+        >
+      </div>
 
       <div class="form d-none d-lg-block">
         <button class="btn btn-outline-secondary mx-4 btn-sm"
@@ -273,11 +365,16 @@
         <button class="btn btn-outline-secondary mx-4 btn-sm"
           ><i class="bi bi-heart-fill" />{totalLikes} Likes</button
         >
-        <!-- logout logic needed -->
+        <button
+          class="btn btn-outline-secondary mx-4 btn-sm"
+          data-bs-toggle="modal"
+          data-bs-target="#suggest"
+          ><i class="bi bi-plus" /> Ask Question</button
+        >
         <a
           on:click={logout}
           href={null}
-          class="btn btn-outline-secondary mx-4 btn-sm"
+          class="btn btn-outline-danger mx-4 btn-sm"
           ><i class="bi bi-box-arrow-right" /> Logout</a
         >
       </div>
@@ -286,56 +383,60 @@
 
   <!-- Desktop -->
   <div
-    class="container mt-3 d-none d-lg-block"
+    class="container mt-3 d-none d-lg-block overflow-auto"
     role="group"
     aria-label="Basic radio toggle button group"
   >
-    {#each feed as feeditem}
-      <input
-        on:click={chooseTag}
-        type="button"
-        class="btn-check"
-        id={feeditem.question.id}
-      />
-      <label class="btn btn-outline-primary mx-4" for={feeditem.question.id}
-        >{feeditem.tag}</label
-      >
-    {/each}
+    <button
+      on:click={getExploreTags}
+      type="button"
+      class="btn btn-outline-secondary mx-1 rounded-pill explore"
+      data-bs-toggle="modal"
+      data-bs-target="#explore">Explore</button
+    >
+    <label class="btn btn-outline-primary mx-1" for={userChoosenTag}
+      >{userChoosenTag}</label
+    >
   </div>
+
   <!-- Mobile overflow-auto -->
   <div
     class="d-flex justify-content-start mt-3 d-lg-none overflow-auto tags"
     role="group"
     aria-label="Basic radio toggle button group"
   >
-    {#each feed as feeditem}
-      <input
-        on:click={chooseTag}
-        type="button"
-        class="btn-check"
-        id={feeditem.question.id}
-      />
-      <label class="btn btn-outline-primary mx-4" for={feeditem.question.id}
-        >{feeditem.tag}</label
-      >
-    {/each}
+    <button
+      on:click={getExploreTags}
+      type="button"
+      class="btn btn-outline-secondary mx-1 rounded-pill explore"
+      data-bs-toggle="modal"
+      data-bs-target="#explore">Explore</button
+    >
+    <label class="btn btn-outline-primary mx-2" for={userChoosenTag}
+      >{userChoosenTag}</label
+    >
   </div>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-3">
   <div class="row mb-5">
-    <div class="col-sm-8">
+    <div class="col-sm-8 mb-4">
       <!-- Deskptop -->
       <div
-        class="container p-4 shadow-sm rounded d-none d-lg-block"
+        class="container p-2 shadow-sm rounded d-none d-lg-block"
         style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
       >
         <div class="row align-items-center">
-          <div class="col">
+          <div class="col-1 text-center fs-4">
+            <a on:click={previousQuestion} class="btn btn-primary" href={null}
+              ><i class="bi bi-arrow-left" /></a
+            >
+          </div>
+          <div class="col-7">
             <p class="h5">{selectedQuestion} ?</p>
             <span class="badge text-bg-primary">Explain like I'm five</span>
           </div>
-          <div class="col text-end">
+          <div class="col-3 text-end">
             <button
               type="button"
               class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
@@ -344,11 +445,16 @@
               ><i class="bi bi-pen" /> Eli5</button
             >
           </div>
+          <div class="col-1 text-center fs-4">
+            <a on:click={nextQuestion} class="btn btn-primary" href={null}
+              ><i class="bi bi-arrow-right" /></a
+            >
+          </div>
         </div>
       </div>
       <!-- Mobile -->
       <div
-        class="container p-4 shadow-sm rounded d-lg-none"
+        class="container p-2 shadow-sm rounded d-lg-none"
         style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
       >
         <div class="row align-items-center">
@@ -369,22 +475,22 @@
       </div>
       <!-- user answer for the above question -->
       {#if userAnswer.answer !== undefined}
-        <div class="card border-success mt-4 shadow-sm rounded">
+        <div class="card border-success mt-2 shadow-sm rounded">
           <div class="card-header bg-white border-light">
             <img
               src={profileUrl + 'pic' + profilePictureCode + '.png'}
               alt=""
               height="30"
             />
-            <b>{userAnswer.answeredBy}</b> &emsp;
+            <b class="small">{userAnswer.answeredBy}</b> &emsp;
             <span class="badge rounded-pill bg-success">Your Answer</span>
           </div>
-          <div class="card-body text-secondary">
-            <p class="card-text">
-              {userAnswer.answer}
+          <div class="card-body text-secondary my-0 py-0">
+            <p class="card-text m-0 py-0 small text-secondary">
+              {@html userAnswer.answer}
             </p>
           </div>
-          <div class="card-body text-secondary">
+          <div class="card-body text-secondary my-1 py-0">
             <input
               type="button"
               class="btn-check"
@@ -394,53 +500,65 @@
             <small class="text-muted">{userAnswer.likeNumber} likes</small> &ensp;
           </div>
         </div>
-        <br />
-        <br />
       {/if}
       <!-- end here user answer  -->
-
-      <div class="container mt-3">
-        <div class="row align-items-center">
-          <div class="col-2 d-none d-lg-block">Sort by</div>
-          <div class="col-10">
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Basic radio toggle button group"
-            >
-              <input
-                type="radio"
-                on:change={chooseSort}
-                class="btn-check"
-                name="radio"
-                id="radio1"
-                value="trending"
-                autocomplete="off"
-                checked
-              />
-              <label class="btn btn-outline-primary" for="radio1"
-                >Trending</label
+      {#if noAnswer != true}
+        <div class="container mt-3">
+          <div class="row align-items-center">
+            <div class="col-2 d-none d-lg-block">Sort by</div>
+            <div class="col-10">
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic radio toggle button group"
               >
+                <input
+                  type="radio"
+                  on:change={chooseSort}
+                  class="btn-check"
+                  name="radio"
+                  id="radio1"
+                  value="trending"
+                  autocomplete="off"
+                  checked
+                />
+                <label class="btn btn-outline-primary" for="radio1"
+                  >Trending</label
+                >
 
-              <input
-                type="radio"
-                on:change={chooseSort}
-                class="btn-check"
-                name="radio"
-                id="radio3"
-                value="lastest"
-                autocomplete="off"
-              />
-              <label class="btn btn-outline-primary" for="radio3">Latest</label>
+                <input
+                  type="radio"
+                  on:change={chooseSort}
+                  class="btn-check"
+                  name="radio"
+                  id="radio3"
+                  value="lastest"
+                  autocomplete="off"
+                />
+                <label class="btn btn-outline-primary" for="radio3"
+                  >Latest</label
+                >
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      {/if}
+
+      {#if noAnswer == true}
+        <div class="containe pt-2">
+          <img
+            src="/assets/images/noanswer.png"
+            class="img-fluid"
+            alt="noanswer"
+          />
+        </div>
+      {/if}
 
       {#key [sortType, selectedQuestionId, reRender]}
         <Answers {sortType} {selectedQuestionId} />
       {/key}
     </div>
+
     <div
       class="col-sm-4 fixed-top d-none d-lg-block"
       style="margin-left: 65%; margin-top: 2%;"
@@ -470,12 +588,6 @@
             <li>Summarise: Summarise your explanation.</li>
           </ul>
 
-          <a
-            data-bs-toggle="modal"
-            data-bs-target="#video"
-            href={null}
-            class="btn btn-outline-secondary">Watch how it works</a
-          >
           <i class="bi bi-info-circle" />
           <a class="link-dark" href="/rules" use:link>Rules</a>
         </div>
@@ -529,42 +641,6 @@
   </div>
 </div>
 
-<!-- Button trigger modal -->
-
-<!-- Video Modal -->
-<div
-  class="modal fade"
-  id="video"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">How it works</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        />
-      </div>
-      <div class="modal-body">
-        <div class="embed-responsive embed-responsive">
-          <iframe
-            src="https://www.youtube.com/embed/2DkkdewrcX4?controls=0"
-            title=""
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- Profile Modal -->
 <div
   class="modal fade"
@@ -573,7 +649,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Profile Detials</h5>
@@ -614,7 +690,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Leaderboard</h5>
@@ -625,14 +701,11 @@
           aria-label="Close"
         />
       </div>
-      <div class="modal-body">
-        <table
-          class="table"
-          style="border: solid; border-color: #E6E8F0; font-size: small;"
-        >
+      <div class="modal-body p-0">
+        <table class="table p-0 m-0" style="font-size: small;">
           <thead style="background-color:#FAFBFF;">
             <tr>
-              <th scope="col">Rank</th>
+              <th scope="col">#</th>
               <th scope="col">User</th>
               <th scope="col">Likes</th>
               <th scope="col">Answers</th>
@@ -641,13 +714,13 @@
           <tbody>
             {#each leaderboard as lead, i}
               <tr>
-                <td><b>{i + 1}</b></td>
+                <td><span>{i + 1}</span></td>
                 <td
                   ><img
                     src={profileUrl + 'pic' + lead.profilePictureCode + '.png'}
                     alt=""
-                    height="30"
-                  /> <b>{lead.uniqueAlias}</b></td
+                    height="20"
+                  /> <span class="small">{lead.uniqueAlias}</span></td
                 >
                 <td>{lead.totalLikes}</td>
                 <td>{lead.totalAnswers}</td>
@@ -661,6 +734,112 @@
   </div>
 </div>
 
+<!-- Suggest question -->
+
+<div
+  class="modal fade"
+  id="suggest"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Share your thoughts
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        />
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label"
+              >What do you want to learn as five year old ?</label
+            >
+            <div class="mb-3 mt-1">
+              <label for="message-text" class="col-form-label">Question:</label>
+              <textarea
+                class="form-control"
+                id="message-text"
+                bind:value={textAreaAskQuestion}
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          >Close</button
+        >
+        <button
+          on:click={askQuestion}
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal">Send message</button
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="explore"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <i class="bi bi-binoculars" /> Explore on Eli5
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        />
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <div class="row text-center">
+            {#each explore as tag}
+              <div
+                id={tag.tag}
+                on:click={chooseExploreTag}
+                on:keypress={null}
+                data-bs-dismiss="modal"
+                class="col m-1 p-2 border border-1 rounded shadow-sm"
+              >
+                {tag.tag}
+              </div>
+            {/each}
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="container mb-2">
+          <img
+            src="/assets/images/explore.png"
+            class="img-fluid"
+            alt="noanswer"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Write Elif Modal -->
 <div
   class="modal fade"
@@ -669,7 +848,7 @@
   aria-labelledby="writeeliflabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <img
@@ -677,7 +856,7 @@
           alt=""
           height="30"
         />
-        <h6 class="modal-title" id="exampleModalLabel">
+        <h6 class="modal-title mx-1 ms-2" id="exampleModalLabel">
           {selectedQuestion} ?
         </h6>
         <button
@@ -688,7 +867,7 @@
         />
       </div>
       <div class="modal-body">
-        <div class="form-floating">
+        <!-- <div class="form-floating">
           <textarea
             class="form-control"
             placeholder="Leave a comment here"
@@ -697,8 +876,12 @@
             style="height: 200px"
             maxlength="2000"
           />
+          
           <label for="floatingTextarea2">Explain like I’m five</label>
-        </div>
+        </div> -->
+
+        <TipTapEditor />
+
         <div class="modal-footer">
           <button
             type="button"
