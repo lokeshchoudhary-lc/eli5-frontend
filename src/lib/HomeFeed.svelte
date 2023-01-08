@@ -330,8 +330,11 @@
 
       <p class="fw-normal"><i class="bi bi-{icon} fs-4" /> {greet}</p>
 
+    <!-- carousel start here -->
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
+
+         <!-- carousel 1 -->
         <div class="carousel-item active">
             <a class="text-decoration-none link-secondary" href={banner.cta}>
               <div class="card mb-3 shadow-sm round">
@@ -355,7 +358,8 @@
               </div>
             </a>
         </div>
-
+        
+    <!-- carousel 2 -->
         <div class="carousel-item">
           <a class="text-decoration-none link-secondary" href={banner.cta}>
             <div class="card mb-3 shadow-sm round">
@@ -380,6 +384,7 @@
           </a>
       </div>
 
+  <!-- carousel 3 -->
       <div class="carousel-item">
         <a class="text-decoration-none link-secondary" href={banner.cta}>
           <div class="card mb-3 shadow-sm round">
@@ -404,9 +409,12 @@
         </a>
     </div>
 
-      </div>
+  </div>
 
-    </div>
+
+  </div>
+
+   <!-- carousel end here -->
       <p class="fw-normal mb-0">
         <i class="bi bi-sunglasses fs-4" /> Trending categories
       </p>
