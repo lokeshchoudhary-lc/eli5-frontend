@@ -18,7 +18,7 @@
   let bestAnswer = {};
   let topTags = [];
   let topQuestions = [];
-  let banner = {};
+  let banners = [];
 
   let page = 1;
   let loadMore = true;
@@ -146,7 +146,7 @@
       console.log(response);
 
       bestAnswer = response.data.bestAnswer;
-      banner = response.data.banner;
+      banners = [...response.data.banner];
       const tmpTags = new Set();
       response.data.topTags.forEach((tag) => {
         tmpTags.add(tag);
@@ -261,7 +261,7 @@
   <div
     class="d-flex justify-content-start mt-3 d-none d-lg-block"
     role="group"
-    aria-label="Basic radio toggle button group" 
+    aria-label="Basic radio toggle button group"
     style="max-width: 70%"
   >
     <button
@@ -279,7 +279,8 @@
         class="btn-check"
         id={tag.tag}
       />
-      <label class="btn btn-outline-primary mx-2 my-2" for={tag.tag}>{tag.tag}</label
+      <label class="btn btn-outline-primary mx-2 my-2" for={tag.tag}
+        >{tag.tag}</label
       >
     {/each}
     {#if loadMore != false}
@@ -330,91 +331,73 @@
 
       <p class="fw-normal"><i class="bi bi-{icon} fs-4" /> {greet}</p>
 
-    <!-- carousel start here -->
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-
-         <!-- carousel 1 -->
-        <div class="carousel-item active">
-            <a class="text-decoration-none link-secondary" href={banner.cta}>
-              <div class="card mb-3 shadow-sm round">
-                <div class="row g-0 p-2">
-                  <div class="col-2 my-auto">
-                    <img
-                      src={banner.imageUrl}
-                      class="img-fluid rounded-start"
-                      width="50px"
-                      alt=""
-                    />
-                  </div>
-                  <div class="col-10">
-                    <div class="card-body">
-                      <p class="card-text small">
-                        {banner.contentText}
-                      </p>
+      <!-- carousel start here -->
+      <div
+        id="carouselExampleSlidesOnly"
+        class="carousel slide"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          {#each banners as banner, i}
+            {#if i == 0}
+              <div class="carousel-item active">
+                <a
+                  class="text-decoration-none link-secondary"
+                  href={banner.cta}
+                >
+                  <div class="card mb-3 shadow-sm round">
+                    <div class="row g-0 p-2">
+                      <div class="col-2 my-auto">
+                        <img
+                          src={banner.imageUrl}
+                          class="img-fluid rounded-start"
+                          width="50px"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col-10">
+                        <div class="card-body">
+                          <p class="card-text small">
+                            {banner.contentText}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
               </div>
-            </a>
-        </div>
-        
-    <!-- carousel 2 -->
-        <div class="carousel-item">
-          <a class="text-decoration-none link-secondary" href={banner.cta}>
-            <div class="card mb-3 shadow-sm round">
-              <div class="row g-0 p-2">
-                <div class="col-2 my-auto">
-                  <img
-                    src={banner.imageUrl}
-                    class="img-fluid rounded-start"
-                    width="50px"
-                    alt=""
-                  />
-                </div>
-                <div class="col-10">
-                  <div class="card-body">
-                    <p class="card-text small">
-                      {banner.contentText}
-                    </p>
+            {:else}
+              <div class="carousel-item">
+                <a
+                  class="text-decoration-none link-secondary"
+                  href={banner.cta}
+                >
+                  <div class="card mb-3 shadow-sm round">
+                    <div class="row g-0 p-2">
+                      <div class="col-2 my-auto">
+                        <img
+                          src={banner.imageUrl}
+                          class="img-fluid rounded-start"
+                          width="50px"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col-10">
+                        <div class="card-body">
+                          <p class="card-text small">
+                            {banner.contentText}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </a>
               </div>
-            </div>
-          </a>
+            {/if}
+          {/each}
+        </div>
       </div>
-
-  <!-- carousel 3 -->
-      <div class="carousel-item">
-        <a class="text-decoration-none link-secondary" href={banner.cta}>
-          <div class="card mb-3 shadow-sm round">
-            <div class="row g-0 p-2">
-              <div class="col-2 my-auto">
-                <img
-                  src={banner.imageUrl}
-                  class="img-fluid rounded-start"
-                  width="50px"
-                  alt=""
-                />
-              </div>
-              <div class="col-10">
-                <div class="card-body">
-                  <p class="card-text small">
-                    {banner.contentText}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-    </div>
-
-  </div>
-
-
-  </div>
-
-   <!-- carousel end here -->
+      <!-- carousel end here -->
       <p class="fw-normal mb-0">
         <i class="bi bi-sunglasses fs-4" /> Trending categories
       </p>
@@ -481,25 +464,32 @@
           <small class="text-muted"> {bestAnswer.likeNumber} likes</small>
         </h5>
         <div class="card-body mt-1 pt-0">
-          <small><span class="badge rounded-pill text-bg-primary">Question</span></small>
+          <small
+            ><span class="badge rounded-pill text-bg-primary">Question</span
+            ></small
+          >
           <h5 class="card-title fs-6 border-bottom py-2">
-             {bestAnswer.question}?
+            {bestAnswer.question}?
           </h5>
-          <p class="card-text text-secondary"><small>
-            <span class="badge rounded-pill text-bg-success mb-1">Answer</span> {@html bestAnswer.answer}
-          </small>
+          <p class="card-text text-secondary">
+            <small>
+              <span class="badge rounded-pill text-bg-success mb-1">Answer</span
+              >
+              {@html bestAnswer.answer}
+            </small>
           </p>
         </div>
       </div>
 
-
       <!-- Bottom Image start -->
       <div class="container d-lg-none mb-2">
-        <img src="/assets/images/explore.png" class="img-fluid" alt="noanswer"/>
+        <img
+          src="/assets/images/explore.png"
+          class="img-fluid"
+          alt="noanswer"
+        />
       </div>
       <!-- Bottom Image End -->
-      
-
 
       <!-- New design end -->
     </div>
@@ -645,14 +635,11 @@
           aria-label="Close"
         />
       </div>
-      <div class="modal-body">
-        <table
-          class="table"
-          style="border: solid; border-color: #E6E8F0; font-size: small;"
-        >
+      <div class="modal-body p-0">
+        <table class="table p-0 m-0" style=" font-size: small;">
           <thead style="background-color:#FAFBFF;">
             <tr>
-              <th scope="col">Rank</th>
+              <th scope="col">#</th>
               <th scope="col">User</th>
               <th scope="col">Likes</th>
               <th scope="col">Answers</th>
@@ -661,13 +648,13 @@
           <tbody>
             {#each leaderboard as lead, i}
               <tr>
-                <td><b>{i + 1}</b></td>
+                <td><span>{i + 1}</span></td>
                 <td
                   ><img
                     src={profileUrl + 'pic' + lead.profilePictureCode + '.png'}
                     alt=""
                     height="30"
-                  /> <b>{lead.uniqueAlias}</b></td
+                  /> <span>{lead.uniqueAlias}</span></td
                 >
                 <td>{lead.totalLikes}</td>
                 <td>{lead.totalAnswers}</td>
@@ -690,7 +677,6 @@
 >
   <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
-      
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
           <i class="bi bi-binoculars" /> Explore on Eli5
@@ -723,10 +709,13 @@
 
       <div class="card-footer">
         <div class="container mb-2">
-          <img src="/assets/images/explore.png" class="img-fluid" alt="noanswer"/>
+          <img
+            src="/assets/images/explore.png"
+            class="img-fluid"
+            alt="noanswer"
+          />
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -741,23 +730,23 @@
   }
 
   .explore {
-	background: linear-gradient(-45deg, #3366FF, #FFFFFF, #3366FF, #3366FF);
-	background-size: 400% 400%;
-	animation: gradient 2s ease infinite;
-  animation-iteration-count: 10;
-  color: white;
-  border-color: #3366FF;
-}
+    background: linear-gradient(-45deg, #3366ff, #ffffff, #3366ff, #3366ff);
+    background-size: 400% 400%;
+    animation: gradient 2s ease infinite;
+    animation-iteration-count: 10;
+    color: white;
+    border-color: #3366ff;
+  }
 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 </style>

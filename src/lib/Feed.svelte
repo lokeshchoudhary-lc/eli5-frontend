@@ -299,15 +299,11 @@
       }
     }
   });
-
-
-
 </script>
 
 <svelte:head>
   <title>Feed</title>
 </svelte:head>
-
 
 <!-- Mobile Bootom NavBar -->
 <nav
@@ -504,7 +500,6 @@
             <small class="text-muted">{userAnswer.likeNumber} likes</small> &ensp;
           </div>
         </div>
-
       {/if}
       <!-- end here user answer  -->
       {#if noAnswer != true}
@@ -550,19 +545,19 @@
       {/if}
 
       {#if noAnswer == true}
-      <div class="containe pt-2">
-      
-          <img src="/assets/images/noanswer.png" class="img-fluid" alt="noanswer"/>
-
-      </div>
+        <div class="containe pt-2">
+          <img
+            src="/assets/images/noanswer.png"
+            class="img-fluid"
+            alt="noanswer"
+          />
+        </div>
       {/if}
 
       {#key [sortType, selectedQuestionId, reRender]}
         <Answers {sortType} {selectedQuestionId} />
       {/key}
     </div>
-
-
 
     <div
       class="col-sm-4 fixed-top d-none d-lg-block"
@@ -614,7 +609,7 @@
               {#each smleaderboard as lead, i}
                 <tr>
                   <td> <b>{i + 1}</b></td>
-                  <td 
+                  <td
                     ><img
                       src={profileUrl +
                         'pic' +
@@ -707,10 +702,7 @@
         />
       </div>
       <div class="modal-body p-0">
-        <table
-          class="table p-0 m-0"
-          style="font-size: small;"
-        >
+        <table class="table p-0 m-0" style="font-size: small;">
           <thead style="background-color:#FAFBFF;">
             <tr>
               <th scope="col">#</th>
@@ -837,13 +829,14 @@
 
       <div class="card-footer">
         <div class="container mb-2">
-          <img src="/assets/images/explore.png" class="img-fluid" alt="noanswer"/>
+          <img
+            src="/assets/images/explore.png"
+            class="img-fluid"
+            alt="noanswer"
+          />
         </div>
       </div>
-
-
     </div>
-
   </div>
 </div>
 
