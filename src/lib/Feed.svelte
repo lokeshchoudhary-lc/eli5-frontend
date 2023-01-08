@@ -412,7 +412,7 @@
       data-bs-toggle="modal"
       data-bs-target="#explore">Explore</button
     >
-    <label class="btn btn-outline-primary mx-4" for={userChoosenTag}
+    <label class="btn btn-outline-primary mx-2" for={userChoosenTag}
       >{userChoosenTag}</label
     >
   </div>
@@ -420,10 +420,10 @@
 
 <div class="container mt-3">
   <div class="row mb-5">
-    <div class="col-sm-8">
+    <div class="col-sm-8 mb-4">
       <!-- Deskptop -->
       <div
-        class="container p-4 shadow-sm rounded d-none d-lg-block"
+        class="container p-2 shadow-sm rounded d-none d-lg-block"
         style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
       >
         <div class="row align-items-center">
@@ -432,11 +432,11 @@
               ><i class="bi bi-arrow-left" /></a
             >
           </div>
-          <div class="col">
+          <div class="col-7">
             <p class="h5">{selectedQuestion} ?</p>
             <span class="badge text-bg-primary">Explain like I'm five</span>
           </div>
-          <div class="col text-end">
+          <div class="col-3 text-end">
             <button
               type="button"
               class={boolAnswered ? 'btn btn-disable' : 'btn btn-primary'}
@@ -454,7 +454,7 @@
       </div>
       <!-- Mobile -->
       <div
-        class="container p-4 shadow-sm rounded d-lg-none"
+        class="container p-2 shadow-sm rounded d-lg-none"
         style="background-color: #F3F6FF; border-style: solid; border-color: #3366FF;"
       >
         <div class="row align-items-center">
@@ -482,15 +482,15 @@
               alt=""
               height="30"
             />
-            <b>{userAnswer.answeredBy}</b> &emsp;
+            <b class="small">{userAnswer.answeredBy}</b> &emsp;
             <span class="badge rounded-pill bg-success">Your Answer</span>
           </div>
-          <div class="card-body text-secondary">
-            <p class="card-text">
+          <div class="card-body text-secondary my-0 py-0">
+            <p class="card-text m-0 py-0 small text-secondary">
               {@html userAnswer.answer}
             </p>
           </div>
-          <div class="card-body text-secondary">
+          <div class="card-body text-secondary my-1 py-0">
             <input
               type="button"
               class="btn-check"
@@ -500,8 +500,7 @@
             <small class="text-muted">{userAnswer.likeNumber} likes</small> &ensp;
           </div>
         </div>
-        <br />
-        <br />
+
       {/if}
       <!-- end here user answer  -->
       {#if noAnswer != true}
@@ -544,6 +543,14 @@
             </div>
           </div>
         </div>
+      {/if}
+
+      {#if noAnswer == true}
+      <div class="containe pt-2">
+      
+          <img src="/assets/images/noanswer.png" class="img-fluid" alt="noanswer"/>
+
+      </div>
       {/if}
 
       {#key [sortType, selectedQuestionId, reRender]}
@@ -820,7 +827,16 @@
           </div>
         </div>
       </div>
+
+      <div class="card-footer">
+        <div class="container mb-2">
+          <img src="/assets/images/explore.png" class="img-fluid" alt="noanswer"/>
+        </div>
+      </div>
+
+
     </div>
+
   </div>
 </div>
 
@@ -840,7 +856,7 @@
           alt=""
           height="30"
         />
-        <h6 class="modal-title" id="exampleModalLabel">
+        <h6 class="modal-title mx-1 ms-2" id="exampleModalLabel">
           {selectedQuestion} ?
         </h6>
         <button

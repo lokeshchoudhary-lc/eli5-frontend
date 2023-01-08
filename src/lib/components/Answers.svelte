@@ -139,15 +139,15 @@
         alt=""
         height="30"
       />
-      <b>{answer.answeredBy}</b> &emsp;
+      <b class="small">{answer.answeredBy}</b> &emsp;
       <small class="text-muted">{answer.createdAt}</small>
     </div>
-    <div class="card-body text-secondary">
-      <p class="card-text">
+    <div class="card-body text-secondary pb-1">
+      <p class="card-text small text-secondary">
         {@html answer.answer}
       </p>
     </div>
-    <div class="card-body text-secondary">
+    <div class="card-body text-secondary pt-0">
       <input type="button" class="btn-check" id={answer.id} />
       <label
         style="border-radius: 100%;"

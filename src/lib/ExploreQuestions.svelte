@@ -72,15 +72,16 @@
 
 <div class="container mt-3 mb-3">
   <div class="list-group w-auto">
-    <p class="lead">
-      {userChoosenTag}
-    </p>
+    <button type="button" class="btn btn-primary mb-2"># {userChoosenTag}</button>
+    <!-- <p class="lead">
+      
+    </p> -->
     {#each questions as question}
       <div
         id={question.id}
         on:click={chooseQuestion}
         on:keypress={null}
-        class="list-group-item list-group-item-action d-flex gap-3 py-3"
+        class="list-group-item list-group-item-action d-flex gap-3 py-3 border rounded my-1"
         aria-current="true"
       >
         <div class="d-flex gap-2 w-100 justify-content-between">
@@ -109,4 +110,8 @@
       >
     </div>
   {/if}
+</div>
+
+<div class="container mb-2 bottom-0">
+  <img src="/assets/images/ask.png" class="img-fluid" alt="noanswer"/>
 </div>

@@ -11,9 +11,10 @@
     editor = new Editor({
       element: element,
       extensions: [StarterKit],
-      content: `
-
-      `,
+      content: 
+      `
+      `
+      ,
       editorProps: {
         attributes: {
           class: 'ProseMirror',
@@ -104,18 +105,24 @@
 <div bind:this={element} />
 
 <style>
+  button{
+    border: solid #3366FF;
+    background: white;
+    color: #3366FF;
+    border-radius: 0.3em;
+  }
   button.active {
-    background: black;
+    background: #3366FF;
     color: white;
+    border: solid #3366FF;
   }
   .spacer {
     margin-bottom: 10px;
   }
   :global(div.ProseMirror) {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    border: 2px solid black;
-    outline-color: black;
+    padding: 0.5em;
+    border: 1px solid #D6E0FF;
+    outline-color: #3366FF;
     border-radius: 0.5em;
   }
 </style>

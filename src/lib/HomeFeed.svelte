@@ -259,9 +259,10 @@
 
   <!-- Desktop -->
   <div
-    class="container mt-3 d-none d-lg-block overflow-auto"
+    class="d-flex justify-content-start mt-3 d-none d-lg-block"
     role="group"
-    aria-label="Basic radio toggle button group"
+    aria-label="Basic radio toggle button group" 
+    style="max-width: 70%"
   >
     <button
       on:click={getExploreTags}
@@ -278,7 +279,7 @@
         class="btn-check"
         id={tag.tag}
       />
-      <label class="btn btn-outline-primary mx-2" for={tag.tag}>{tag.tag}</label
+      <label class="btn btn-outline-primary mx-2 my-2" for={tag.tag}>{tag.tag}</label
       >
     {/each}
     {#if loadMore != false}
@@ -298,7 +299,7 @@
     <button
       on:click={getExploreTags}
       type="button"
-      class="btn btn-outline-secondary mx-1 rounded-pill explore"
+      class="btn btn-outline-secondary mx-1 rounded-pill explore css-selector"
       data-bs-toggle="modal"
       data-bs-target="#explore">Explore</button
     >
@@ -323,39 +324,94 @@
 </div>
 
 <div class="container mt-3">
-  <div class="row mb-5">
+  <div class="row">
     <div class="col-sm-8" id="slide">
       <!-- New design start -->
 
       <p class="fw-normal"><i class="bi bi-{icon} fs-4" /> {greet}</p>
 
-      <a class="text-decoration-none link-secondary" href={banner.cta}>
-        <div class="card mb-3 shadow-sm round">
-          <div class="row g-0 p-2">
-            <div class="col-2 my-auto">
-              <img
-                src={banner.imageUrl}
-                class="img-fluid rounded-start"
-                width="50px"
-                alt=""
-              />
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+            <a class="text-decoration-none link-secondary" href={banner.cta}>
+              <div class="card mb-3 shadow-sm round">
+                <div class="row g-0 p-2">
+                  <div class="col-2 my-auto">
+                    <img
+                      src={banner.imageUrl}
+                      class="img-fluid rounded-start"
+                      width="50px"
+                      alt=""
+                    />
+                  </div>
+                  <div class="col-10">
+                    <div class="card-body">
+                      <p class="card-text small">
+                        {banner.contentText}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+        </div>
+
+        <div class="carousel-item">
+          <a class="text-decoration-none link-secondary" href={banner.cta}>
+            <div class="card mb-3 shadow-sm round">
+              <div class="row g-0 p-2">
+                <div class="col-2 my-auto">
+                  <img
+                    src={banner.imageUrl}
+                    class="img-fluid rounded-start"
+                    width="50px"
+                    alt=""
+                  />
+                </div>
+                <div class="col-10">
+                  <div class="card-body">
+                    <p class="card-text small">
+                      {banner.contentText}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-10">
-              <div class="card-body">
-                <p class="card-text small">
-                  {banner.contentText}
-                </p>
+          </a>
+      </div>
+
+      <div class="carousel-item">
+        <a class="text-decoration-none link-secondary" href={banner.cta}>
+          <div class="card mb-3 shadow-sm round">
+            <div class="row g-0 p-2">
+              <div class="col-2 my-auto">
+                <img
+                  src={banner.imageUrl}
+                  class="img-fluid rounded-start"
+                  width="50px"
+                  alt=""
+                />
+              </div>
+              <div class="col-10">
+                <div class="card-body">
+                  <p class="card-text small">
+                    {banner.contentText}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </a>
+        </a>
+    </div>
 
+      </div>
+
+    </div>
       <p class="fw-normal mb-0">
         <i class="bi bi-sunglasses fs-4" /> Trending categories
       </p>
 
-      <div class="card mb-3 border-0">
+      <div class="card mb-0 border-0">
         <div class="row g-0">
           <div class="col-12">
             <div class="card-body">
@@ -399,7 +455,7 @@
         </div>
       {/each}
 
-      <p class="fw-normal"><i class="bi bi-suit-heart" /> Best answer</p>
+      <p class="fw-normal mt-4"><i class="bi bi-suit-heart" /> Best answer</p>
 
       <div
         on:click={chooseBestAnswer}
@@ -416,15 +472,26 @@
           <i style="color: #3366FF;" class="bi bi-heart-fill fs-6" />
           <small class="text-muted"> {bestAnswer.likeNumber} likes</small>
         </h5>
-        <div class="card-body">
-          <h5 class="card-title fs-6 border-bottom">
-            {bestAnswer.question}
+        <div class="card-body mt-1 pt-0">
+          <small><span class="badge rounded-pill text-bg-primary">Question</span></small>
+          <h5 class="card-title fs-6 border-bottom py-2">
+             {bestAnswer.question}?
           </h5>
-          <p class="card-text">
-            {@html bestAnswer.answer}
+          <p class="card-text text-secondary"><small>
+            <span class="badge rounded-pill text-bg-success mb-1">Answer</span> {@html bestAnswer.answer}
+          </small>
           </p>
         </div>
       </div>
+
+
+      <!-- Bottom Image start -->
+      <div class="container d-lg-none mb-2">
+        <img src="/assets/images/explore.png" class="img-fluid" alt="noanswer"/>
+      </div>
+      <!-- Bottom Image End -->
+      
+
 
       <!-- New design end -->
     </div>
@@ -615,6 +682,7 @@
 >
   <div class="modal-dialog modal-fullscreen-sm-down">
     <div class="modal-content">
+      
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
           <i class="bi bi-binoculars" /> Explore on Eli5
@@ -644,6 +712,13 @@
           </div>
         </div>
       </div>
+
+      <div class="card-footer">
+        <div class="container mb-2">
+          <img src="/assets/images/explore.png" class="img-fluid" alt="noanswer"/>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -656,4 +731,25 @@
   .tags::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
   }
+
+  .explore {
+	background: linear-gradient(-45deg, #3366FF, #FFFFFF, #3366FF, #3366FF);
+	background-size: 400% 400%;
+	animation: gradient 2s ease infinite;
+  animation-iteration-count: 10;
+  color: white;
+  border-color: #3366FF;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
 </style>
