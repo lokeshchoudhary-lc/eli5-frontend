@@ -36,7 +36,7 @@
       const response = await axios.get(
         `/answers/${selectedQuestionId}?sort=${sortType}`
       );
-      console.log(response);
+      // console.log(response);
       if (response.status == 204) {
         loadMore = false;
         noAnswerContent.set(true);
@@ -62,7 +62,7 @@
       const response = await axios.get(
         `/answers/${selectedQuestionId}?sort=${sortType}&page=${page}`
       );
-      console.log(response);
+      // console.log(response);
 
       if (response.status == 204) {
         loadMore = false;

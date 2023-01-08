@@ -127,7 +127,7 @@
   async function getExploreTags() {
     try {
       const response = await axios.get(`/explore`);
-      console.log(response);
+      // console.log(response);
       explore = [...response.data];
     } catch (error) {
       console.log(error);
@@ -143,7 +143,7 @@
   async function getUserDetails() {
     try {
       const response = await axios.get('/userDetails');
-      console.log(response);
+      // console.log(response);
 
       firstName = response.data.firstName;
       profilePictureCode = response.data.profilePictureCode;
@@ -158,7 +158,7 @@
   async function getLeaderboard() {
     try {
       const response = await axios.get('/leaderboard');
-      console.log(response);
+      // console.log(response);
       leaderboard = response.data;
     } catch (error) {
       console.log(error);
@@ -181,7 +181,7 @@
         const response = await axios.get(
           `/question/${selectedQuestionId}?tag=${userChoosenTag}&page=${nextPage}&action=next`
         );
-        console.log(response);
+        // console.log(response);
         if (response.status == 204) {
           questionFeed.set(tmpCounter, 'no_content');
           return;
@@ -218,7 +218,7 @@
         const response = await axios.get(
           `/question/${selectedQuestionId}?tag=${userChoosenTag}&page=${backPage}&action=back`
         );
-        console.log(response);
+        // console.log(response);
         if (response.status == 204) {
           questionFeed.set(tmpCounter, 'no_content');
           return;

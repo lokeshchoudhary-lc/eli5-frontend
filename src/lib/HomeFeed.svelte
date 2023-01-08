@@ -70,7 +70,7 @@
     axios
       .get('/logout')
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -82,7 +82,7 @@
   async function getExploreTags() {
     try {
       const response = await axios.get(`/explore`);
-      console.log(response);
+      // console.log(response);
       explore = [...response.data];
     } catch (error) {
       console.log(error);
@@ -92,7 +92,7 @@
   async function getAllTags() {
     try {
       const response = await axios.get('/tags');
-      console.log(response);
+      // console.log(response);
       if (response.data.length < 10) {
         loadMore = false;
       }
@@ -109,7 +109,7 @@
       }
       page++;
       const response = await axios.get(`/tags?page=${page}`);
-      console.log(response);
+      // console.log(response);
 
       if (response.status == 204) {
         loadMore = false;
@@ -128,7 +128,7 @@
   async function getUserDetails() {
     try {
       const response = await axios.get('/userDetails');
-      console.log(response);
+      // console.log(response);
 
       firstName = response.data.firstName;
       profilePictureCode = response.data.profilePictureCode;
@@ -143,7 +143,7 @@
   async function getHomeFeed() {
     try {
       const response = await axios.get('/feed');
-      console.log(response);
+      // console.log(response);
 
       bestAnswer = response.data.bestAnswer;
       banners = [...response.data.banner];
@@ -160,7 +160,7 @@
   async function getLeaderboard() {
     try {
       const response = await axios.get('/leaderboard');
-      console.log(response);
+      // console.log(response);
       leaderboard = response.data;
     } catch (error) {
       console.log(error);
