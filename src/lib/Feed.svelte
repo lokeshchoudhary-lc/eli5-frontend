@@ -299,11 +299,15 @@
       }
     }
   });
+
+
+
 </script>
 
 <svelte:head>
   <title>Feed</title>
 </svelte:head>
+
 
 <!-- Mobile Bootom NavBar -->
 <nav
@@ -557,6 +561,9 @@
         <Answers {sortType} {selectedQuestionId} />
       {/key}
     </div>
+
+
+
     <div
       class="col-sm-4 fixed-top d-none d-lg-block"
       style="margin-left: 65%; margin-top: 2%;"
@@ -607,7 +614,7 @@
               {#each smleaderboard as lead, i}
                 <tr>
                   <td> <b>{i + 1}</b></td>
-                  <td
+                  <td 
                     ><img
                       src={profileUrl +
                         'pic' +
@@ -699,14 +706,14 @@
           aria-label="Close"
         />
       </div>
-      <div class="modal-body">
+      <div class="modal-body p-0">
         <table
-          class="table"
-          style="border: solid; border-color: #E6E8F0; font-size: small;"
+          class="table p-0 m-0"
+          style="font-size: small;"
         >
           <thead style="background-color:#FAFBFF;">
             <tr>
-              <th scope="col">Rank</th>
+              <th scope="col">#</th>
               <th scope="col">User</th>
               <th scope="col">Likes</th>
               <th scope="col">Answers</th>
@@ -715,13 +722,13 @@
           <tbody>
             {#each leaderboard as lead, i}
               <tr>
-                <td><b>{i + 1}</b></td>
+                <td><span>{i + 1}</span></td>
                 <td
                   ><img
                     src={profileUrl + 'pic' + lead.profilePictureCode + '.png'}
                     alt=""
-                    height="30"
-                  /> <b>{lead.uniqueAlias}</b></td
+                    height="20"
+                  /> <span class="small">{lead.uniqueAlias}</span></td
                 >
                 <td>{lead.totalLikes}</td>
                 <td>{lead.totalAnswers}</td>
