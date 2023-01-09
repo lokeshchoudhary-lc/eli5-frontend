@@ -671,17 +671,17 @@
       </div>
       <div class="modal-body">
         <div class="container">
-          <div class="alert alert-success" role="alert">
+          <div class="alert alert-primary" role="alert">
             <i class="bi bi-pen" />
             {totalAnswers} Answer
           </div>
 
-          <div class="alert alert-success" role="alert">
+          <div class="alert alert-primary" role="alert">
             <i class="bi bi-sunglasses" />
             {streak} Streak
           </div>
 
-          <div class="alert alert-success" role="alert">
+          <div class="alert alert-primary" role="alert">
             <i class="bi bi-heart-fill" />
             {totalLikes} Likes
           </div>

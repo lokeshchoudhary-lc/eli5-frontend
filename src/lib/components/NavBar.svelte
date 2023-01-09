@@ -12,9 +12,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/rules" use:link>Rules</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="/privacyPolicy" use:link>Privacy Policy</a>
-        </li>
+        </li> -->
       </ul>
     {/if}
   </div>
