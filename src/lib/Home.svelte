@@ -84,11 +84,26 @@
 
 <NavBar />
 
-<div class="px-4 pt-5 mt-1 text-center ">
+<div class="fixed-bottom text-center mb-2">
+  <a
+    href="https://www.producthunt.com/posts/eli5?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-eli5"
+    target="_blank"
+    rel="noreferrer"
+    ><img
+      src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=374145&theme=light"
+      alt="ELI5 - Simplify&#0032;•&#0032;Explain&#0032;•&#0032;Master | Product Hunt"
+      style="width: 200px;"
+      width="200"
+    /></a
+  >
+</div>
+
+<div class="px-4 pt-2 mt-1 text-center ">
   <h1 class="display-4 fw-bold">Why don’t you</h1>
   <h1 class="display-4 fw-bold text-primary">
     Explain this to me like I’m five
   </h1>
+
   <div class="col-lg-6 mx-auto">
     <p class="lead mb-4 fs-6">
       Join the ELI5 club and explain questions like you would do to 5 year
