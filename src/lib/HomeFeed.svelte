@@ -53,6 +53,7 @@
   function chooseExploreTag(event) {
     let tag = event.currentTarget.id;
     userChoosenTagState.set(tag);
+    localStorage.setItem('userChoosenExploreTag', tag);
     localStorage.setItem('userChoosenTag', tag);
     replace('/exploreQuestions');
   }
@@ -65,18 +66,22 @@
     localStorage.setItem('userChoosenTag', tag);
     push('/feed');
   }
+  function eraseCookie(name) {
+    document.cookie =
+      name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
 
   function logout() {
     axios
       .get('/logout')
       .then(function (response) {
+        eraseCookie('loginState');
+        replace('/');
         // console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
-
-    replace('/');
   }
 
   async function getExploreTags() {

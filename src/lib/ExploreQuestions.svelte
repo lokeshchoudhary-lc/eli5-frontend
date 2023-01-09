@@ -13,12 +13,15 @@
 
   userChoosenTagState.subscribe((value) => {
     userChoosenTag = value;
+    if (value == null) {
+      userChoosenTag = localStorage.getItem('userChoosenExploreTag');
+    }
   });
 
   async function getQuestionsOfTag() {
     try {
       const response = await axios.get(`/questions/${userChoosenTag}`);
-      console.log(response);
+      // console.log(response);
       if (response.data.length < 10) {
         loadMore = false;
       }
@@ -47,7 +50,7 @@
       const response = await axios.get(
         `/questions/${userChoosenTag}?page=${page}`
       );
-      console.log(response);
+      // console.log(response);
 
       if (response.status == 204) {
         loadMore = false;
@@ -72,7 +75,9 @@
 
 <div class="container mt-3 mb-3">
   <div class="list-group w-auto">
-    <button type="button" class="btn btn-primary mb-2"># {userChoosenTag}</button>
+    <button type="button" class="btn btn-primary mb-2"
+      ># {userChoosenTag}</button
+    >
     <!-- <p class="lead">
       
     </p> -->
@@ -113,5 +118,5 @@
 </div>
 
 <div class="container mb-2 bottom-0">
-  <img src="/assets/images/ask.png" class="img-fluid" alt="noanswer"/>
+  <img src="/assets/images/ask.png" class="img-fluid" alt="noanswer" />
 </div>
