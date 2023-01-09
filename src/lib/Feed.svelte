@@ -38,6 +38,9 @@
 
   userChoosenTagState.subscribe((value) => {
     userChoosenTag = value;
+    if (value == null) {
+      userChoosenTag = localStorage.getItem('userChoosenExploreTag');
+    }
   });
 
   userChoosenQuestionState.subscribe((value) => {
@@ -63,7 +66,7 @@
   async function getUserAnswer(questionId) {
     try {
       const response = await axios.get(`/userAnswer/${questionId}`);
-      console.log(response);
+      // console.log(response);
       userAnswer = response.data;
       if (response.data.message != 'no_answer') {
         boolAnswered = true;
@@ -92,7 +95,7 @@
         questionId: id,
       })
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         textAreaAnswer = '';
         boolAnswered = true;
         userAnswer = response.data.userAnswer;
@@ -111,17 +114,22 @@
     sortType = event.currentTarget.value;
   }
 
+  function eraseCookie(name) {
+    document.cookie =
+      name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
   function logout() {
     axios
       .get('/logout')
       .then(function (response) {
-        console.log(response);
+        eraseCookie('loginState');
+        replace('/');
+        // console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
-
-    replace('/');
   }
 
   async function getExploreTags() {
@@ -136,6 +144,7 @@
   function chooseExploreTag(event) {
     let tag = event.currentTarget.id;
     userChoosenTagState.set(tag);
+    localStorage.setItem('userChoosenExploreTag', tag);
     localStorage.setItem('userChoosenTag', tag);
     replace('/exploreQuestions');
   }
