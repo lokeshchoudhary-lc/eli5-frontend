@@ -18,10 +18,7 @@
     <p id="5e6cecbb-4b1f-454e-a32a-a4f56d3df0b6" class="">
       Stay respectful, polite, and friendly. ELI5 is for requesting help
       understanding complex concepts and sharing explanations
-      <a
-        href="https://www.reddit.com/r/explainlikeimfive/comments/j28z5/welcome/"
-        >without fear of judgment</a
-      >. Don&#x27;t insult people or their good intentions in a post, comment,
+      without fear of judgment. Don&#x27;t insult people or their good intentions in a post, comment,
       or otherwise, even if a person seems rude or ill-informed. Remember the
       positive spirit of ELI5.
     </p>
@@ -66,7 +63,7 @@
       <li style="list-style-type: disc">Hypotheticals</li>
     </ul>
     <ul id="080e5f1e-db87-4558-b544-8f7d705da22a" class="bulleted-list">
-      <li style="list-style-type: disc">Reddit questions (itself/help).</li>
+      <li style="list-style-type: disc">Eli5 questions (itself/help).</li>
     </ul>
     <ul id="ff7f91c6-0a5b-46e5-84cf-e766a9e44bdb" class="bulleted-list">
       <li style="list-style-type: disc">Whole topic overviews</li>
@@ -87,8 +84,6 @@
     <p id="54c1a0a4-bb47-4982-ac61-7967fe846d88" class="">
       Links to outside sources are allowed and encouraged but must be
       accompanied by an original explanation (not just quoted text) or summary.
-      Links to relevant previous ELI5 posts or highly relevant other subreddits
-      may be excepted.
     </p>
     <p id="af934835-0435-426a-9454-b47922ee662a" class="">
       No plagiarism. All quoted text must be cited. This list is not
@@ -109,7 +104,7 @@
       <strong>ELI5 is for factual information, not opinions</strong>
     </p>
     <p id="dde3e88a-e60e-40e1-aa4f-c93c883e90cc" class="">
-      All comments must explain, ask about, correct or address facts. Trying to
+      All answers must explain, ask about, correct or address facts. Trying to
       change someone&#x27;s opinion or influence them with yours is not
       appropriate.
     </p>
@@ -131,7 +126,7 @@
     <p id="921a3aae-1c47-4b52-a26a-0374f73e84fa" class="">
       If your question boils down to: &quot;Why isn&#x27;t this thing I believe
       (or is self evidently true) the case?&quot; your question is loaded and
-      belongs in another subreddit.
+      belongs in another Eli5 questions.
     </p>
     <p id="f6ccda19-997f-4333-b14b-baf7607cc2a6" class="" />
     <p id="334c0b37-99ab-4c62-a1c5-e1746f3f5723" class="">
@@ -144,15 +139,11 @@
       what you&#x27;re still trying to understand.
     </p>
     <p id="c891809f-9143-4cfd-9ee5-a0a651ed3cd0" class="">
-      “Old posts” refers to questions older than six months. If there are
+      “Old questions" refers to questions older than six months. If there are
       unarchived posts on the topic, you must explain why those posts do not
       answer the question.
     </p>
-    <p id="96002fb3-c7ec-40b6-83f0-10420541e9be" class="">
-      You can read more about our reposts policy
-      <a href="https://www.reddit.com/r/explainlikeimfive/wiki/reposts">here</a
-      >.
-    </p>
+    
     <p id="421eb089-92e7-4e90-a696-ba4da7ee6d91" class="" />
     <p id="2314befb-0959-4725-bdf1-766b18234ef4" class="">
       <strong>Don&#x27;t guess</strong>
@@ -176,8 +167,7 @@
       <strong>Posts must begin with &quot;ELI5:&quot;</strong>
     </p>
     <p id="b278bc8c-b94d-4ae5-85a6-7b4d9bd455de" class="">
-      This is meant to help identify ELI5 posts on the front page or
-      <a href="https://www.reddit.com/r/all">/r/all</a> or any other collection.
+      This is meant to help identify ELI5 posts on the front page or any other collection.
     </p>
   </div>
 </article>
