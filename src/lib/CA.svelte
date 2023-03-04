@@ -1,5 +1,6 @@
 <div class="px-4 pb-5 my-5 text-center">
-    <img class="d-block mx-auto mb-4" src="/assets/images/ca.png" alt="" width="50%" >
+    <img class="d-block mx-auto mb-4 d-lg-none" src="/assets/images/ca.png" alt="" width="100%" >
+    <img class="d-block mx-auto mb-4 d-none d-lg-block" src="/assets/images/ca.png" alt="" width="50%" >
     <h1 class="display-5 fw-bold">Community Ambassadors</h1>
     <div class="col-lg-8 mx-auto">
       <p class="lead mb-4">The Community Ambassador (CA) program is a community-building initiative launched by Eli5. The program's primary objective is to promote awareness and engagement in eli5.club within universities and organizations. The program offers opportunities for participants to develop their skills while contributing to the growth of the community.</p>
