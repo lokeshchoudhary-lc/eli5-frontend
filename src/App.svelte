@@ -12,10 +12,10 @@
   import CA from './lib/CA.svelte';
 
   //for productionuncomment below line
-  // axios.defaults.baseURL = 'https://backend.eli5.club/api/v1';
+  axios.defaults.baseURL = 'https://backend.eli5.club/api/v1';
 
   //for testing on localhost uncomment below line
-  axios.defaults.baseURL = 'http://localhost:8080/api/v1';
+// axios.defaults.baseURL = 'http://localhost:8080/api/v1';
   axios.defaults.withCredentials = true;
 
   const routes = {
